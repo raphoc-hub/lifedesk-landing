@@ -498,8 +498,7 @@
     }
 
     /* ── DROPZONES ── */
-    .dropzone { cursor: default; pointer-events: none; opacity: 0.85; }
-    .dropzone-orig {
+    .dropzone {
       background: var(--white);
       border: 1.5px dashed var(--border2);
       border-radius: 14px;
@@ -1206,8 +1205,8 @@
 
           <!-- Document Upload -->
           <div class="divider"></div>
-          <div class="form-section-label" style="margin-top:8px;">Your documents</div>
-          <p class="upload-note">After submitting, email your documents directly to <a href="mailto:cases@getlifedesk.com" style="color:var(--green);font-weight:600;">cases@getlifedesk.com</a> — itemized bill, EOB, and insurance card. Don't have them yet? Submit anyway, we'll guide you.</p>
+          <div class="form-section-label" style="margin-top:8px;">Upload your documents <span style="color:var(--muted);font-weight:400;text-transform:none;letter-spacing:0;font-size:12px;">— optional but speeds things up</span></div>
+          <p class="upload-note">Don't have them yet? Submit anyway — we'll tell you exactly what to get.</p>
 
           <!-- Dropzone 1: Itemized Bill -->
           <div class="dropzone" id="dz-bill">
@@ -1224,7 +1223,7 @@
                 </svg>
               </div>
               <div class="dz-title">Itemized bill <span class="dz-badge required">Required</span></div>
-              <div class="dz-sub">Email to cases@getlifedesk.com — PDF, photo, or scan</div>
+              <div class="dz-sub">Drag &amp; drop or click — PDF, photo, or scan</div>
               <div class="dz-hint">The detailed line-item bill with CPT codes — not the summary statement</div>
             </div>
             <div class="dz-preview" id="dz-bill-preview" style="display:none">
@@ -1256,7 +1255,7 @@
                 </svg>
               </div>
               <div class="dz-title">Explanation of Benefits (EOB) <span class="dz-badge required">Required</span></div>
-              <div class="dz-sub">Email to cases@getlifedesk.com — PDF, photo, or scan</div>
+              <div class="dz-sub">Drag &amp; drop or click — PDF, photo, or scan</div>
               <div class="dz-hint">From your insurer — shows what they paid vs. what you owe</div>
             </div>
             <div class="dz-preview" id="dz-eob-preview" style="display:none">
@@ -1287,7 +1286,7 @@
                 </svg>
               </div>
               <div class="dz-title">Insurance card + plan document <span class="dz-badge optional">Optional</span></div>
-              <div class="dz-sub">Email to cases@getlifedesk.com — multiple files OK</div>
+              <div class="dz-sub">Drag &amp; drop or click — multiple files allowed</div>
               <div class="dz-hint">Card front/back, or your plan document PDF — speeds up analysis</div>
             </div>
             <div class="dz-preview" id="dz-card-preview" style="display:none">
@@ -1419,69 +1418,111 @@
     }
 
     const form = document.getElementById('case-form');
-    // ── DROPZONE LOGIC ──
+
+    // ── UPLOADCARE FILE UPLOAD ──
+    const UC_PUB_KEY = 'd0acd2a567ce53f21bad';
+    const uploadedFiles = { bill: [], eob: [], card: [] };
+
     function formatBytes(b) {
       return b < 1024*1024 ? (b/1024).toFixed(0)+'KB' : (b/(1024*1024)).toFixed(1)+'MB';
     }
-    function setupDropzone(dzId, inputId) {
-      const dz = document.getElementById(dzId);
-      const input = document.getElementById(inputId);
+
+    async function uploadToUploadcare(file) {
+      const fd = new FormData();
+      fd.append('UPLOADCARE_PUB_KEY', UC_PUB_KEY);
+      fd.append('UPLOADCARE_STORE', 'auto');
+      fd.append('file', file);
+      const res = await fetch('https://upload.uploadcare.com/base/', { method: 'POST', body: fd });
+      const data = await res.json();
+      const uuid = Object.values(data)[0];
+      return `https://ucarecdn.com/${uuid}/`;
+    }
+
+    function showUploading(dzId) {
       const idle = document.getElementById(dzId+'-idle');
       const preview = document.getElementById(dzId+'-preview');
-      const nameEl = document.getElementById(dzId+'-name');
       const sizeEl = document.getElementById(dzId+'-size');
+      idle.style.display = 'none';
+      preview.style.display = 'flex';
+      document.getElementById(dzId+'-name').textContent = 'Uploading...';
+      sizeEl.textContent = '';
+      document.getElementById(dzId).classList.add('has-file');
+    }
 
-      function showFile(files) {
-        if (!files || files.length === 0) return;
-        const names = Array.from(files).map(f => f.name).join(', ');
-        const total = Array.from(files).reduce((a,f) => a+f.size, 0);
-        nameEl.textContent = names;
-        sizeEl.textContent = formatBytes(total) + ' · ready to upload';
-        idle.style.display = 'none';
-        preview.style.display = 'flex';
-        dz.classList.add('has-file');
-        dz.classList.remove('drag-over');
-      }
+    function showUploaded(dzId, names, urls) {
+      document.getElementById(dzId+'-name').textContent = names;
+      document.getElementById(dzId+'-size').textContent = urls.length + ' file' + (urls.length > 1 ? 's' : '') + ' · uploaded ✓';
+    }
 
-      input.addEventListener('change', () => showFile(input.files));
+    function showUploadError(dzId) {
+      document.getElementById(dzId+'-name').textContent = 'Upload failed';
+      document.getElementById(dzId+'-size').textContent = 'Try again or email to cases@getlifedesk.com';
+      document.getElementById(dzId).classList.remove('has-file');
+      document.getElementById(dzId+'-idle').style.display = 'block';
+      document.getElementById(dzId+'-preview').style.display = 'none';
+    }
 
-      dz.addEventListener('dragover', e => {
-        e.preventDefault(); e.stopPropagation();
-        dz.classList.add('drag-over');
-      });
-      dz.addEventListener('dragleave', e => {
-        e.preventDefault(); e.stopPropagation();
-        dz.classList.remove('drag-over');
-      });
-      dz.addEventListener('drop', e => {
-        e.preventDefault(); e.stopPropagation();
-        dz.classList.remove('drag-over');
-        const dt = e.dataTransfer;
-        if (dt.files.length) {
-          try {
-            const newDT = new DataTransfer();
-            Array.from(dt.files).forEach(f => newDT.items.add(f));
-            input.files = newDT.files;
-          } catch(err) { input.click(); return; }
-          showFile(input.files);
+    async function handleFiles(files, dzId, key) {
+      if (!files || files.length === 0) return;
+      showUploading(dzId);
+      const names = Array.from(files).map(f => f.name).join(', ');
+      try {
+        const urls = await Promise.all(Array.from(files).map(uploadToUploadcare));
+        uploadedFiles[key] = urls;
+        showUploaded(dzId, names, urls);
+        // Store URLs in hidden inputs
+        let hidden = document.getElementById('hidden-' + key);
+        if (!hidden) {
+          hidden = document.createElement('input');
+          hidden.type = 'hidden';
+          hidden.id = 'hidden-' + key;
+          hidden.name = key + '_files';
+          form.appendChild(hidden);
         }
+        hidden.value = urls.join(', ');
+      } catch(err) {
+        showUploadError(dzId);
+      }
+    }
+
+    function setupDropzone(dzId, key, multiple) {
+      const dz = document.getElementById(dzId);
+      if (!dz) return;
+      dz.style.cursor = 'pointer';
+      dz.style.pointerEvents = 'all';
+      dz.style.opacity = '1';
+
+      dz.addEventListener('click', () => {
+        const inp = document.createElement('input');
+        inp.type = 'file';
+        inp.accept = '.pdf,.jpg,.jpeg,.png,.heic';
+        if (multiple) inp.multiple = true;
+        inp.onchange = () => handleFiles(inp.files, dzId, key);
+        inp.click();
+      });
+      dz.addEventListener('dragover', e => { e.preventDefault(); dz.classList.add('drag-over'); });
+      dz.addEventListener('dragleave', () => dz.classList.remove('drag-over'));
+      dz.addEventListener('drop', e => {
+        e.preventDefault(); dz.classList.remove('drag-over');
+        handleFiles(e.dataTransfer.files, dzId, key);
       });
     }
 
     function removeFile(e, inputId, dzId) {
       e.stopPropagation();
-      const input = document.getElementById(inputId);
-      const dz = document.getElementById(dzId);
-      try { input.value = ''; } catch(_) {}
+      const key = dzId.replace('dz-','');
+      uploadedFiles[key] = [];
+      const hidden = document.getElementById('hidden-' + key);
+      if (hidden) hidden.value = '';
       document.getElementById(dzId+'-idle').style.display = 'block';
       document.getElementById(dzId+'-preview').style.display = 'none';
-      dz.classList.remove('has-file');
+      document.getElementById(dzId).classList.remove('has-file');
     }
 
-    setupDropzone('dz-bill', 'bill-file');
-    setupDropzone('dz-eob', 'eob-file');
-    setupDropzone('dz-card', 'card-file');
-    // ── END DROPZONE LOGIC ──
+    setupDropzone('dz-bill', 'bill', false);
+    setupDropzone('dz-eob', 'eob', false);
+    setupDropzone('dz-card', 'card', true);
+    // ── END UPLOADCARE LOGIC ──
 
     const submitBtn = document.getElementById('submit-btn');
     const successState = document.getElementById('success-state');
