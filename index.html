@@ -764,7 +764,7 @@
   }
 
   .step-check.done { display: flex; }
-  .step-check.done + .step-spinner, .analysis-step.done .step-spinner { display: none; }
+  .analysis-step.done .step-spinner { display: none; }
 
   .analysis-step.done { color: var(--muted-light); }
 
@@ -803,6 +803,20 @@
     display: flex;
     gap: 10px;
     align-items: flex-start;
+    opacity: 0;
+    transform: translateY(8px);
+    transition: opacity 0.4s ease, transform 0.4s ease;
+  }
+  .finding-card.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .btn-dispute, .dispute-note {
+    opacity: 0;
+    transition: opacity 0.4s ease;
+  }
+  .btn-dispute.visible, .dispute-note.visible {
+    opacity: 1;
   }
 
   .finding-dot {
@@ -1523,7 +1537,7 @@
     </a>
     <div class="nav-right">
       <a href="#how" class="btn-ghost">How it works</a>
-      <a href="#analyze" class="btn-amber">Analyze my bill →</a>
+      <a href="#demo" class="btn-amber">Analyze my bill →</a>
     </div>
   </div>
 </nav>
@@ -1690,7 +1704,10 @@
           </div>
 
           <!-- Drop zone -->
-          <div class="drop-zone" id="drop-zone">
+          <div class="drop-zone" id="drop-zone"
+               ondragover="event.preventDefault(); this.style.borderColor='var(--amber)'; this.style.background='var(--amber-dim)';"
+               ondragleave="this.style.borderColor=''; this.style.background='';"
+               ondrop="event.preventDefault(); this.style.borderColor=''; this.style.background=''; startAnalysis();">
             <div class="drop-zone-icon">📋</div>
             <div class="drop-zone-title">Upload your bill or EOB</div>
             <div class="drop-zone-sub">PDF, photo, scan — any format</div>
@@ -1860,7 +1877,7 @@ Surprises Act non-compliance, and (3) deductible calculation error…
             <div class="win-note">Credit applied in 5–7 business days to your account on file</div>
           </div>
 
-          <button class="btn-share">↗ Share your win</button>
+          <button class="btn-share" onclick="copyShare()">↗ Share your win</button>
 
           <div class="pro-upsell">
             <div class="pro-eyebrow">Upgrade</div>
@@ -1890,7 +1907,7 @@ Surprises Act non-compliance, and (3) deductible calculation error…
     </div>
     <div class="proof-grid">
       <div class="proof-card">
-        <div class="proof-amount">$4,740</div>
+        <div class="proof-amount">$3,940</div>
         <div class="proof-insurer">Aetna Bronze HSA — Cleveland, OH</div>
         <p class="proof-quote">"I had no idea my bill had so many errors. LifeDesk handled everything and I never had to make a single phone call."</p>
         <div class="proof-footer">
@@ -1996,30 +2013,63 @@ Surprises Act non-compliance, and (3) deductible calculation error…
     if (index === 0) resetDemo();
   }
 
+  // Alias for convenience
+  function wTab(i) { switchTab(i); }
+
+  // ── PENDING TIMEOUT TRACKING ──
+  var _demoTimers = [];
+  var demoStarted = false;
+
+  function _clearDemoTimers() {
+    _demoTimers.forEach(clearTimeout);
+    _demoTimers = [];
+  }
+
+  function _dt(fn, ms) {
+    _demoTimers.push(setTimeout(fn, ms));
+  }
+
   function resetDemo() {
-    // Only reset if analysis has run and results are visible
-    // (keep bill card visible always)
+    // Cancel any in-flight animation timers
+    _clearDemoTimers();
+    demoStarted = false;
+
     const resultsBox = document.getElementById('results-box');
     const dropZone = document.getElementById('drop-zone');
     const analysisBox = document.getElementById('analysis-box');
-    if (resultsBox.style.display === 'block') {
-      resultsBox.style.display = 'none';
-      dropZone.style.display = 'block';
-      analysisBox.style.display = 'none';
-      // Reset steps
-      for (let i = 1; i <= 4; i++) {
-        const step = document.getElementById('step-' + i);
-        const check = document.getElementById('check-' + i);
-        const spin = document.getElementById('spin-' + i);
-        step.classList.remove('visible', 'done');
-        check.classList.remove('done');
-        spin.style.display = 'block';
-      }
+
+    // Reset regardless of current state (handles mid-animation reset)
+    resultsBox.style.display = 'none';
+    resultsBox.style.opacity = '';
+    dropZone.style.display = 'block';
+    dropZone.style.opacity = '1';
+    analysisBox.style.display = 'none';
+    analysisBox.style.opacity = '';
+
+    // Reset steps
+    for (let i = 1; i <= 4; i++) {
+      const step = document.getElementById('step-' + i);
+      const check = document.getElementById('check-' + i);
+      const spin = document.getElementById('spin-' + i);
+      step.classList.remove('visible', 'done');
+      check.classList.remove('done');
+      spin.style.display = '';
     }
+
+    // Reset finding card animations
+    document.querySelectorAll('.finding-card').forEach(c => c.classList.remove('visible'));
+    const btnDispute = document.querySelector('.btn-dispute');
+    const disputeNote = document.querySelector('.dispute-note');
+    if (btnDispute) btnDispute.classList.remove('visible');
+    if (disputeNote) disputeNote.classList.remove('visible');
   }
 
   // ── ANALYSIS ANIMATION ──
   function startAnalysis() {
+    // Guard: prevent double-trigger
+    if (demoStarted) return;
+    demoStarted = true;
+
     const dropZone = document.getElementById('drop-zone');
     const analysisBox = document.getElementById('analysis-box');
     const resultsBox = document.getElementById('results-box');
@@ -2027,48 +2077,93 @@ Surprises Act non-compliance, and (3) deductible calculation error…
     // Fade out drop zone
     dropZone.style.transition = 'opacity 0.3s ease';
     dropZone.style.opacity = '0';
-    setTimeout(() => {
+    _dt(() => {
       dropZone.style.display = 'none';
       analysisBox.style.display = 'block';
 
-      // Animate steps
-      const timings = [350, 1000, 1700, 2450];
+      // Animate steps in at spec timings: 350, 1000, 1700, 2450ms
+      const timings  = [350, 1000, 1700, 2450];
       const doneTimes = [700, 1400, 2100, 2900];
 
       for (let i = 1; i <= 4; i++) {
+        const idx = i;
         // Show step
-        setTimeout(() => {
-          const step = document.getElementById('step-' + i);
-          step.classList.add('visible');
-        }, timings[i-1]);
+        _dt(() => {
+          const step = document.getElementById('step-' + idx);
+          if (step) step.classList.add('visible');
+        }, timings[idx - 1]);
 
         // Check off step
-        setTimeout(() => {
-          const step = document.getElementById('step-' + i);
-          const check = document.getElementById('check-' + i);
-          const spin = document.getElementById('spin-' + i);
-          step.classList.add('done');
-          check.classList.add('done');
-          spin.style.display = 'none';
-        }, doneTimes[i-1]);
+        _dt(() => {
+          const step = document.getElementById('step-' + idx);
+          const check = document.getElementById('check-' + idx);
+          const spin = document.getElementById('spin-' + idx);
+          if (step) step.classList.add('done');
+          if (check) check.classList.add('done');
+          if (spin) spin.style.display = 'none';
+        }, doneTimes[idx - 1]);
       }
 
-      // Show results
-      setTimeout(() => {
+      // After 3200ms: fade out analysis box, show results
+      _dt(() => {
         analysisBox.style.transition = 'opacity 0.4s ease';
         analysisBox.style.opacity = '0';
-        setTimeout(() => {
+        _dt(() => {
           analysisBox.style.display = 'none';
           resultsBox.style.display = 'block';
           resultsBox.style.opacity = '0';
           resultsBox.style.transition = 'opacity 0.5s ease';
-          setTimeout(() => {
+          _dt(() => {
             resultsBox.style.opacity = '1';
+
+            // Stagger finding cards in at 180ms intervals
+            const cards = document.querySelectorAll('.finding-card');
+            cards.forEach((card, i) => {
+              _dt(() => card.classList.add('visible'), i * 180);
+            });
+
+            // Dispute CTA + note appear 700ms after results
+            const btnDispute = document.querySelector('.btn-dispute');
+            const disputeNote = document.querySelector('.dispute-note');
+            _dt(() => {
+              if (btnDispute) btnDispute.classList.add('visible');
+              if (disputeNote) disputeNote.classList.add('visible');
+            }, 700 + (cards.length - 1) * 180);
+
           }, 30);
         }, 400);
       }, 3200);
 
     }, 300);
+  }
+
+  // ── COPY/SHARE ──
+  function copyShare() {
+    const shareText = 'LifeDesk just recovered $3,940 from my medical bill! Check out lifedesk.com';
+    var btn = document.querySelector('.btn-share');
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(shareText).then(function() {
+        if (btn) { btn.textContent = '✓ Link copied!'; setTimeout(function() { btn.textContent = '↗ Share your win'; }, 2000); }
+      }).catch(function() {
+        _copyShareFallback(shareText, btn);
+      });
+    } else {
+      _copyShareFallback(shareText, btn);
+    }
+  }
+
+  function _copyShareFallback(text, btn) {
+    var ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.position = 'fixed';
+    ta.style.opacity = '0';
+    document.body.appendChild(ta);
+    ta.select();
+    try {
+      document.execCommand('copy');
+      if (btn) { btn.textContent = '✓ Link copied!'; setTimeout(function() { btn.textContent = '↗ Share your win'; }, 2000); }
+    } catch(e) {}
+    document.body.removeChild(ta);
   }
 
   // ── SCROLL ANIMATIONS (Intersection Observer) ──
