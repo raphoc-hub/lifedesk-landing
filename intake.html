@@ -754,6 +754,7 @@
     }
   </style>
 </head>
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 <body>
 
   <!-- NAV -->
@@ -1072,6 +1073,18 @@
   </footer>
 
   <script>
+    // EmailJS auto-reply
+    emailjs.init('7miJmC5KH6DTWZYnh');
+
+    function sendAutoReply(customerName, customerEmail) {
+      emailjs.send('service_kcekfro', 'template_gcucd3i', {
+        customer_name: customerName,
+        to_email: customerEmail,
+      }).catch(function(err) {
+        console.warn('Auto-reply failed (non-critical):', err);
+      });
+    }
+
     const form = document.getElementById('case-form');
     // ── DROPZONE LOGIC ──
     function formatBytes(b) {
@@ -1223,6 +1236,11 @@
     }
 
     function showSuccess() {
+      // Fire auto-reply email
+      const customerName = document.getElementById('name').value.trim() || 'there';
+      const customerEmail = document.getElementById('email').value.trim();
+      if (customerEmail) sendAutoReply(customerName, customerEmail);
+
       form.style.display = 'none';
       successState.classList.add('visible');
       window.scrollTo({ top: 0, behavior: 'smooth' });
