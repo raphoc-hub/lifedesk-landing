@@ -434,6 +434,66 @@
     }
 
     /* ── SUBMIT AREA ── */
+    /* ── DROPZONES ── */
+    .dropzone {
+      background: var(--card);
+      border: 1.5px dashed rgba(255,255,255,0.12);
+      border-radius: 14px;
+      padding: 22px 20px;
+      margin-bottom: 12px;
+      cursor: pointer;
+      transition: all 0.2s;
+      user-select: none;
+    }
+    .dropzone:hover {
+      border-color: var(--amber);
+      background: rgba(245,158,11,0.04);
+    }
+    .dropzone.drag-over {
+      border-color: var(--amber);
+      background: rgba(245,158,11,0.08);
+      transform: scale(1.01);
+    }
+    .dropzone.has-file {
+      border-color: var(--emerald);
+      border-style: solid;
+      background: rgba(16,185,129,0.04);
+    }
+    .dz-idle { text-align: center; pointer-events: none; }
+    .dz-icon { font-size: 28px; margin-bottom: 8px; }
+    .dz-title {
+      font-size: 14px; font-weight: 600; color: var(--text);
+      margin-bottom: 4px;
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+    }
+    .dz-sub { font-size: 12px; color: var(--muted); margin-bottom: 4px; }
+    .dz-hint { font-size: 11px; color: var(--faint); }
+    .dz-badge {
+      font-size: 9px; font-weight: 700; letter-spacing: .07em;
+      text-transform: uppercase; padding: 2px 7px;
+      border-radius: 5px; flex-shrink: 0;
+    }
+    .dz-badge.required { background: rgba(245,158,11,0.12); border: 1px solid rgba(245,158,11,0.25); color: var(--amber); }
+    .dz-badge.optional { background: var(--surface2); border: 1px solid var(--border); color: var(--muted); }
+    .dz-preview {
+      display: flex; align-items: center; gap: 12px;
+      pointer-events: none;
+    }
+    .dz-file-icon { font-size: 22px; flex-shrink: 0; }
+    .dz-file-info { flex: 1; min-width: 0; }
+    .dz-file-name { font-size: 13px; font-weight: 600; color: var(--emerald); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .dz-file-size { font-size: 11px; color: var(--muted); margin-top: 2px; }
+    .dz-remove {
+      pointer-events: all;
+      background: rgba(244,63,94,0.1); border: 1px solid rgba(244,63,94,0.2);
+      color: #f43f5e; border-radius: 50%;
+      width: 24px; height: 24px; font-size: 11px;
+      cursor: pointer; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      transition: all 0.15s;
+    }
+    .dz-remove:hover { background: rgba(244,63,94,0.2); }
+
     .submit-area {
       display: flex;
       flex-direction: column;
@@ -876,33 +936,64 @@
         <!-- Document Upload -->
         <div class="form-section-label" style="margin-top:32px;">Upload your documents <span style="color:var(--muted);font-weight:400;text-transform:none;letter-spacing:0;font-size:12px;">— optional but speeds things up</span></div>
 
-        <div class="upload-card" style="background:var(--card);border:1.5px dashed var(--border2);border-radius:14px;padding:20px 20px 16px;margin-bottom:8px;">
-          <div class="field" style="margin-bottom:14px;">
-            <label for="bill-file" style="display:flex;align-items:center;gap:8px;">
-              <span style="background:var(--amber-dim);border:1px solid var(--amber-border);border-radius:6px;padding:2px 8px;font-size:10px;font-weight:700;color:var(--amber);text-transform:uppercase;letter-spacing:.06em;">Required</span>
-              Itemized bill with CPT codes
-            </label>
-            <input type="file" id="bill-file" name="itemized_bill" accept=".pdf,.jpg,.jpeg,.png,.heic" style="width:100%;background:var(--surface);border:1px solid var(--border2);border-radius:8px;padding:10px 12px;color:var(--text);font-family:'Inter',sans-serif;font-size:13px;cursor:pointer;" />
-            <span style="font-size:11px;color:var(--muted);margin-top:4px;display:block;">PDF, photo, or scan. Not the summary — the detailed line-item bill.</span>
+        <!-- Dropzone 1: Itemized Bill -->
+        <div class="dropzone" id="dz-bill" onclick="document.getElementById('bill-file').click()">
+          <input type="file" id="bill-file" name="itemized_bill" accept=".pdf,.jpg,.jpeg,.png,.heic" hidden />
+          <div class="dz-idle" id="dz-bill-idle">
+            <div class="dz-icon">📄</div>
+            <div class="dz-title">Itemized bill <span class="dz-badge required">Required</span></div>
+            <div class="dz-sub">Drag & drop or click — PDF, photo, or scan</div>
+            <div class="dz-hint">The detailed line-item bill with CPT codes — not the summary statement</div>
           </div>
-          <div class="field" style="margin-bottom:14px;">
-            <label for="eob-file" style="display:flex;align-items:center;gap:8px;">
-              <span style="background:var(--amber-dim);border:1px solid var(--amber-border);border-radius:6px;padding:2px 8px;font-size:10px;font-weight:700;color:var(--amber);text-transform:uppercase;letter-spacing:.06em;">Required</span>
-              Explanation of Benefits (EOB)
-            </label>
-            <input type="file" id="eob-file" name="eob" accept=".pdf,.jpg,.jpeg,.png,.heic" style="width:100%;background:var(--surface);border:1px solid var(--border2);border-radius:8px;padding:10px 12px;color:var(--text);font-family:'Inter',sans-serif;font-size:13px;cursor:pointer;" />
-            <span style="font-size:11px;color:var(--muted);margin-top:4px;display:block;">From your insurer — shows what they paid vs. what you owe.</span>
-          </div>
-          <div class="field" style="margin-bottom:4px;">
-            <label for="card-file" style="display:flex;align-items:center;gap:8px;">
-              <span style="background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:2px 8px;font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;">Optional</span>
-              Insurance card + plan document
-            </label>
-            <input type="file" id="card-file" name="insurance_docs" accept=".pdf,.jpg,.jpeg,.png,.heic" multiple style="width:100%;background:var(--surface);border:1px solid var(--border2);border-radius:8px;padding:10px 12px;color:var(--text);font-family:'Inter',sans-serif;font-size:13px;cursor:pointer;" />
-            <span style="font-size:11px;color:var(--muted);margin-top:4px;display:block;">Card front/back, or your plan document PDF. Speeds up the analysis.</span>
+          <div class="dz-preview" id="dz-bill-preview" style="display:none">
+            <div class="dz-file-icon">📎</div>
+            <div class="dz-file-info">
+              <div class="dz-file-name" id="dz-bill-name"></div>
+              <div class="dz-file-size" id="dz-bill-size"></div>
+            </div>
+            <button type="button" class="dz-remove" onclick="removeFile(event,'bill-file','dz-bill')">✕</button>
           </div>
         </div>
-        <p style="font-size:12px;color:var(--muted);margin-bottom:28px;">Don't have these yet? Submit anyway — we'll tell you exactly how to get them.</p>
+
+        <!-- Dropzone 2: EOB -->
+        <div class="dropzone" id="dz-eob" onclick="document.getElementById('eob-file').click()">
+          <input type="file" id="eob-file" name="eob" accept=".pdf,.jpg,.jpeg,.png,.heic" hidden />
+          <div class="dz-idle" id="dz-eob-idle">
+            <div class="dz-icon">🏥</div>
+            <div class="dz-title">Explanation of Benefits (EOB) <span class="dz-badge required">Required</span></div>
+            <div class="dz-sub">Drag & drop or click — PDF, photo, or scan</div>
+            <div class="dz-hint">From your insurer — shows what they paid vs. what you owe</div>
+          </div>
+          <div class="dz-preview" id="dz-eob-preview" style="display:none">
+            <div class="dz-file-icon">📎</div>
+            <div class="dz-file-info">
+              <div class="dz-file-name" id="dz-eob-name"></div>
+              <div class="dz-file-size" id="dz-eob-size"></div>
+            </div>
+            <button type="button" class="dz-remove" onclick="removeFile(event,'eob-file','dz-eob')">✕</button>
+          </div>
+        </div>
+
+        <!-- Dropzone 3: Insurance card + plan doc -->
+        <div class="dropzone" id="dz-card" onclick="document.getElementById('card-file').click()">
+          <input type="file" id="card-file" name="insurance_docs" accept=".pdf,.jpg,.jpeg,.png,.heic" multiple hidden />
+          <div class="dz-idle" id="dz-card-idle">
+            <div class="dz-icon">💳</div>
+            <div class="dz-title">Insurance card + plan document <span class="dz-badge optional">Optional</span></div>
+            <div class="dz-sub">Drag & drop or click — multiple files allowed</div>
+            <div class="dz-hint">Card front/back, or your plan document PDF — speeds up analysis</div>
+          </div>
+          <div class="dz-preview" id="dz-card-preview" style="display:none">
+            <div class="dz-file-icon">📎</div>
+            <div class="dz-file-info">
+              <div class="dz-file-name" id="dz-card-name"></div>
+              <div class="dz-file-size" id="dz-card-size"></div>
+            </div>
+            <button type="button" class="dz-remove" onclick="removeFile(event,'card-file','dz-card')">✕</button>
+          </div>
+        </div>
+
+        <p style="font-size:12px;color:var(--muted);margin-bottom:28px;margin-top:8px;">Don't have these yet? Submit anyway — we'll tell you exactly how to get them.</p>
 
         <!-- How it works -->
         <div class="how-it-works">
@@ -982,6 +1073,71 @@
 
   <script>
     const form = document.getElementById('case-form');
+    // ── DROPZONE LOGIC ──
+    function formatBytes(b) {
+      return b < 1024*1024 ? (b/1024).toFixed(0)+'KB' : (b/(1024*1024)).toFixed(1)+'MB';
+    }
+    function setupDropzone(dzId, inputId) {
+      const dz = document.getElementById(dzId);
+      const input = document.getElementById(inputId);
+      const idle = document.getElementById(dzId+'-idle');
+      const preview = document.getElementById(dzId+'-preview');
+      const nameEl = document.getElementById(dzId+'-name');
+      const sizeEl = document.getElementById(dzId+'-size');
+
+      function showFile(files) {
+        if (!files || files.length === 0) return;
+        const names = Array.from(files).map(f => f.name).join(', ');
+        const total = Array.from(files).reduce((a,f) => a+f.size, 0);
+        nameEl.textContent = names;
+        sizeEl.textContent = formatBytes(total) + ' · ready to upload';
+        idle.style.display = 'none';
+        preview.style.display = 'flex';
+        dz.classList.add('has-file');
+        dz.classList.remove('drag-over');
+      }
+
+      input.addEventListener('change', () => showFile(input.files));
+
+      dz.addEventListener('dragover', e => {
+        e.preventDefault(); e.stopPropagation();
+        dz.classList.add('drag-over');
+      });
+      dz.addEventListener('dragleave', e => {
+        e.preventDefault(); e.stopPropagation();
+        dz.classList.remove('drag-over');
+      });
+      dz.addEventListener('drop', e => {
+        e.preventDefault(); e.stopPropagation();
+        dz.classList.remove('drag-over');
+        const dt = e.dataTransfer;
+        if (dt.files.length) {
+          // Assign dropped files to the hidden input via DataTransfer
+          try {
+            const newDT = new DataTransfer();
+            Array.from(dt.files).forEach(f => newDT.items.add(f));
+            input.files = newDT.files;
+          } catch(err) { /* fallback: open picker */ input.click(); return; }
+          showFile(input.files);
+        }
+      });
+    }
+
+    function removeFile(e, inputId, dzId) {
+      e.stopPropagation();
+      const input = document.getElementById(inputId);
+      const dz = document.getElementById(dzId);
+      try { input.value = ''; } catch(_) {}
+      document.getElementById(dzId+'-idle').style.display = 'block';
+      document.getElementById(dzId+'-preview').style.display = 'none';
+      dz.classList.remove('has-file');
+    }
+
+    setupDropzone('dz-bill', 'bill-file');
+    setupDropzone('dz-eob', 'eob-file');
+    setupDropzone('dz-card', 'card-file');
+    // ── END DROPZONE LOGIC ──
+
     const submitBtn = document.getElementById('submit-btn');
     const successState = document.getElementById('success-state');
     const errorBanner = document.getElementById('form-error-banner');
