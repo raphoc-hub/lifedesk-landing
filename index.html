@@ -1998,3 +1998,92 @@ Surprises Act non-compliance, and (3) deductible calculation error…
     </div>
     <div class="footer-legal">LifeDesk is not a law firm and does not provide legal advice.</div>
   </div>
+</footer>
+
+<!-- Toast notification -->
+<div id="toast" style="position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);background:#f5a623;color:#0a0a0a;padding:10px 20px;border-radius:8px;font-size:14px;font-weight:600;opacity:0;transition:all 0.3s ease;z-index:9999;pointer-events:none;">
+  Link copied to clipboard!
+</div>
+
+<script>
+  // ── Tab switching ──────────────────────────────────────────────
+  function switchTab(n) {
+    document.querySelectorAll('.tab-btn').forEach(function(btn, i) {
+      btn.classList.toggle('active', i === n);
+    });
+    document.querySelectorAll('.tab-panel').forEach(function(panel, i) {
+      panel.classList.toggle('active', i === n);
+    });
+  }
+
+  // ── Bill analysis animation ───────────────────────────────────
+  function startAnalysis() {
+    var box = document.getElementById('analysis-box');
+    var results = document.getElementById('results-box');
+    if (!box) return;
+
+    // Reset state
+    box.style.display = 'block';
+    results.style.display = 'none';
+    for (var i = 1; i <= 4; i++) {
+      var step = document.getElementById('step-' + i);
+      step.classList.remove('visible', 'done');
+      document.getElementById('check-' + i).classList.remove('done');
+    }
+
+    // Sequentially reveal and complete each step
+    var delays = [200, 900, 1700, 2500];
+    var dones  = [700, 1500, 2300, 3100];
+
+    for (var j = 1; j <= 4; j++) {
+      (function(idx) {
+        setTimeout(function() {
+          document.getElementById('step-' + idx).classList.add('visible');
+        }, delays[idx - 1]);
+        setTimeout(function() {
+          var s = document.getElementById('step-' + idx);
+          s.classList.add('done');
+          document.getElementById('check-' + idx).classList.add('done');
+          // Show results after last step
+          if (idx === 4) {
+            setTimeout(function() {
+              results.style.display = 'block';
+            }, 400);
+          }
+        }, dones[idx - 1]);
+      })(j);
+    }
+  }
+
+  // ── Share button ──────────────────────────────────────────────
+  function copyShare() {
+    var text = 'LifeDesk recovered $3,940 from my insurance company. https://getlifedesk.com';
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(showToast, showToast);
+    } else {
+      try {
+        var ta = document.createElement('textarea');
+        ta.value = text;
+        ta.style.position = 'fixed';
+        ta.style.opacity = '0';
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
+      } catch(e) {}
+      showToast();
+    }
+  }
+
+  function showToast() {
+    var t = document.getElementById('toast');
+    t.style.opacity = '1';
+    t.style.transform = 'translateX(-50%) translateY(0)';
+    setTimeout(function() {
+      t.style.opacity = '0';
+      t.style.transform = 'translateX(-50%) translateY(80px)';
+    }, 2500);
+  }
+</script>
+</body>
+</html>
