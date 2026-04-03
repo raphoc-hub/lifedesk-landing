@@ -1537,7 +1537,7 @@
     </a>
     <div class="nav-right">
       <a href="#how" class="btn-ghost">How it works</a>
-      <a href="#demo" class="btn-amber">Analyze my bill →</a>
+      <a href="intake.html" class="btn-amber">Analyze my bill →</a>
     </div>
   </div>
 </nav>
@@ -1559,7 +1559,7 @@
       You pay 25% of what we recover — nothing if we lose.
     </p>
     <div class="hero-cta-wrap">
-      <a href="#demo" class="btn-amber-lg">Analyze my bill free →</a>
+      <a href="intake.html" class="btn-amber-lg">Analyze my bill free →</a>
       <div class="trust-line">
         <span>25% fee only if we win</span>
         <span>Results in 30 days</span>
@@ -1955,7 +1955,7 @@ Surprises Act non-compliance, and (3) deductible calculation error…
           <li><span class="check">✓</span> 30-day case monitoring</li>
           <li><span class="check">✓</span> External review filing</li>
         </ul>
-        <a href="#demo" class="btn-pricing-ghost">Analyze my bill →</a>
+        <a href="intake.html" class="btn-pricing-ghost">Analyze my bill →</a>
       </div>
       <div class="pricing-card featured">
         <div class="pricing-tag">Most value</div>
@@ -1980,7 +1980,7 @@ Surprises Act non-compliance, and (3) deductible calculation error…
   <div class="container">
     <h2>Your bill might be wrong.<br><span class="cta-amber-line">Find out in 60 seconds.</span></h2>
     <p class="cta-sub">Over half of medical bills contain errors. Most people never dispute because it's designed to be impossible. That's what we fix.</p>
-    <a href="#demo" class="btn-amber-lg">Analyze my bill free →</a>
+    <a href="intake.html" class="btn-amber-lg">Analyze my bill free →</a>
   </div>
 </section>
 
@@ -1992,199 +1992,9 @@ Surprises Act non-compliance, and (3) deductible calculation error…
       <span class="logo-word">LifeDesk</span>
     </a>
     <div class="footer-links">
-      <a href="#">Privacy</a>
-      <a href="#">Terms</a>
+      <a href="privacy.html">Privacy</a>
+      <a href="terms.html">Terms</a>
       <a href="mailto:hello@getlifedesk.com">Contact</a>
     </div>
     <div class="footer-legal">LifeDesk is not a law firm and does not provide legal advice.</div>
   </div>
-</footer>
-
-<script>
-  // ── TAB SWITCHING ──
-  function switchTab(index) {
-    document.querySelectorAll('.tab-btn').forEach((btn, i) => {
-      btn.classList.toggle('active', i === index);
-    });
-    document.querySelectorAll('.tab-panel').forEach((panel, i) => {
-      panel.classList.toggle('active', i === index);
-    });
-    // Reset tab 0 state when switching away and back
-    if (index === 0) resetDemo();
-  }
-
-  // Alias for convenience
-  function wTab(i) { switchTab(i); }
-
-  // ── PENDING TIMEOUT TRACKING ──
-  var _demoTimers = [];
-  var demoStarted = false;
-
-  function _clearDemoTimers() {
-    _demoTimers.forEach(clearTimeout);
-    _demoTimers = [];
-  }
-
-  function _dt(fn, ms) {
-    _demoTimers.push(setTimeout(fn, ms));
-  }
-
-  function resetDemo() {
-    // Cancel any in-flight animation timers
-    _clearDemoTimers();
-    demoStarted = false;
-
-    const resultsBox = document.getElementById('results-box');
-    const dropZone = document.getElementById('drop-zone');
-    const analysisBox = document.getElementById('analysis-box');
-
-    // Reset regardless of current state (handles mid-animation reset)
-    resultsBox.style.display = 'none';
-    resultsBox.style.opacity = '';
-    dropZone.style.display = 'block';
-    dropZone.style.opacity = '1';
-    analysisBox.style.display = 'none';
-    analysisBox.style.opacity = '';
-
-    // Reset steps
-    for (let i = 1; i <= 4; i++) {
-      const step = document.getElementById('step-' + i);
-      const check = document.getElementById('check-' + i);
-      const spin = document.getElementById('spin-' + i);
-      step.classList.remove('visible', 'done');
-      check.classList.remove('done');
-      spin.style.display = '';
-    }
-
-    // Reset finding card animations
-    document.querySelectorAll('.finding-card').forEach(c => c.classList.remove('visible'));
-    const btnDispute = document.querySelector('.btn-dispute');
-    const disputeNote = document.querySelector('.dispute-note');
-    if (btnDispute) btnDispute.classList.remove('visible');
-    if (disputeNote) disputeNote.classList.remove('visible');
-  }
-
-  // ── ANALYSIS ANIMATION ──
-  function startAnalysis() {
-    // Guard: prevent double-trigger
-    if (demoStarted) return;
-    demoStarted = true;
-
-    const dropZone = document.getElementById('drop-zone');
-    const analysisBox = document.getElementById('analysis-box');
-    const resultsBox = document.getElementById('results-box');
-
-    // Fade out drop zone
-    dropZone.style.transition = 'opacity 0.3s ease';
-    dropZone.style.opacity = '0';
-    _dt(() => {
-      dropZone.style.display = 'none';
-      analysisBox.style.display = 'block';
-
-      // Animate steps in at spec timings: 350, 1000, 1700, 2450ms
-      const timings  = [350, 1000, 1700, 2450];
-      const doneTimes = [700, 1400, 2100, 2900];
-
-      for (let i = 1; i <= 4; i++) {
-        const idx = i;
-        // Show step
-        _dt(() => {
-          const step = document.getElementById('step-' + idx);
-          if (step) step.classList.add('visible');
-        }, timings[idx - 1]);
-
-        // Check off step
-        _dt(() => {
-          const step = document.getElementById('step-' + idx);
-          const check = document.getElementById('check-' + idx);
-          const spin = document.getElementById('spin-' + idx);
-          if (step) step.classList.add('done');
-          if (check) check.classList.add('done');
-          if (spin) spin.style.display = 'none';
-        }, doneTimes[idx - 1]);
-      }
-
-      // After 3200ms: fade out analysis box, show results
-      _dt(() => {
-        analysisBox.style.transition = 'opacity 0.4s ease';
-        analysisBox.style.opacity = '0';
-        _dt(() => {
-          analysisBox.style.display = 'none';
-          resultsBox.style.display = 'block';
-          resultsBox.style.opacity = '0';
-          resultsBox.style.transition = 'opacity 0.5s ease';
-          _dt(() => {
-            resultsBox.style.opacity = '1';
-
-            // Stagger finding cards in at 180ms intervals
-            const cards = document.querySelectorAll('.finding-card');
-            cards.forEach((card, i) => {
-              _dt(() => card.classList.add('visible'), i * 180);
-            });
-
-            // Dispute CTA + note appear 700ms after results
-            const btnDispute = document.querySelector('.btn-dispute');
-            const disputeNote = document.querySelector('.dispute-note');
-            _dt(() => {
-              if (btnDispute) btnDispute.classList.add('visible');
-              if (disputeNote) disputeNote.classList.add('visible');
-            }, 700 + (cards.length - 1) * 180);
-
-          }, 30);
-        }, 400);
-      }, 3200);
-
-    }, 300);
-  }
-
-  // ── COPY/SHARE ──
-  function copyShare() {
-    const shareText = 'LifeDesk just recovered $3,940 from my medical bill! Check out getlifedesk.com';
-    var btn = document.querySelector('.btn-share');
-    if (navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard.writeText(shareText).then(function() {
-        if (btn) { btn.textContent = '✓ Link copied!'; setTimeout(function() { btn.textContent = '↗ Share your win'; }, 2000); }
-      }).catch(function() {
-        _copyShareFallback(shareText, btn);
-      });
-    } else {
-      _copyShareFallback(shareText, btn);
-    }
-  }
-
-  function _copyShareFallback(text, btn) {
-    var ta = document.createElement('textarea');
-    ta.value = text;
-    ta.style.position = 'fixed';
-    ta.style.opacity = '0';
-    document.body.appendChild(ta);
-    ta.select();
-    try {
-      document.execCommand('copy');
-      if (btn) { btn.textContent = '✓ Link copied!'; setTimeout(function() { btn.textContent = '↗ Share your win'; }, 2000); }
-    } catch(e) {}
-    document.body.removeChild(ta);
-  }
-
-  // ── SCROLL ANIMATIONS (Intersection Observer) ──
-  const observerOpts = { threshold: 0.1, rootMargin: '0px 0px -40px 0px' };
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.style.opacity = '1';
-        entry.target.style.transform = 'translateY(0)';
-        observer.unobserve(entry.target);
-      }
-    });
-  }, observerOpts);
-
-  document.querySelectorAll('.step-card, .proof-card, .pricing-card').forEach((el, i) => {
-    el.style.opacity = '0';
-    el.style.transform = 'translateY(24px)';
-    el.style.transition = `opacity 0.5s ${i * 0.1}s ease, transform 0.5s ${i * 0.1}s ease`;
-    observer.observe(el);
-  });
-</script>
-
-</body>
-</html>

@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Privacy Policy — LifeDesk</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0a0a0a;
+    --surface: #111113;
+    --border: rgba(255,255,255,0.08);
+    --amber: #f59e0b;
+    --amber-dim: rgba(245,158,11,0.15);
+    --text: #f4f4f5;
+    --muted: #71717a;
+    --muted-light: #a1a1aa;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  /* ── NAV ── */
+  nav {
+    border-bottom: 1px solid var(--border);
+    padding: 16px 0;
+    position: sticky;
+    top: 0;
+    background: rgba(10,10,10,0.92);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    z-index: 100;
+  }
+
+  .nav-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+  }
+
+  .logo-mark {
+    width: 32px;
+    height: 32px;
+    background: var(--amber);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Instrument Serif', Georgia, serif;
+    font-size: 18px;
+    color: #0a0a0a;
+    font-weight: 400;
+    flex-shrink: 0;
+  }
+
+  .logo-word {
+    font-family: 'Instrument Serif', Georgia, serif;
+    font-size: 20px;
+    color: var(--text);
+    letter-spacing: -0.01em;
+  }
+
+  .nav-back {
+    font-size: 14px;
+    color: var(--muted-light);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: color 0.2s;
+  }
+
+  .nav-back:hover { color: var(--amber); }
+
+  /* ── MAIN CONTENT ── */
+  main {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 64px 24px 96px;
+  }
+
+  .doc-header {
+    margin-bottom: 56px;
+    padding-bottom: 40px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .doc-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--amber);
+    margin-bottom: 16px;
+  }
+
+  .doc-title {
+    font-family: 'Instrument Serif', Georgia, serif;
+    font-size: 40px;
+    font-weight: 400;
+    color: var(--text);
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    margin-bottom: 20px;
+  }
+
+  .doc-meta {
+    font-size: 13px;
+    color: var(--muted);
+  }
+
+  .doc-meta span { color: var(--muted-light); }
+
+  .doc-intro {
+    margin-top: 24px;
+    font-size: 17px;
+    line-height: 1.7;
+    color: var(--muted-light);
+    font-style: italic;
+  }
+
+  /* ── ARTICLE BODY ── */
+  .doc-body {
+    font-size: 16px;
+    line-height: 1.8;
+    color: var(--muted-light);
+  }
+
+  .doc-section {
+    margin-bottom: 52px;
+  }
+
+  .section-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--amber);
+    margin-bottom: 10px;
+  }
+
+  .doc-section h2 {
+    font-family: 'Inter', sans-serif;
+    font-size: 22px;
+    font-weight: 600;
+    color: #fff;
+    margin-bottom: 20px;
+    line-height: 1.3;
+  }
+
+  .doc-section p {
+    margin-bottom: 16px;
+  }
+
+  .doc-section p:last-child {
+    margin-bottom: 0;
+  }
+
+  .doc-section ul {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .doc-section ul li {
+    padding-left: 20px;
+    position: relative;
+    line-height: 1.7;
+  }
+
+  .doc-section ul li::before {
+    content: '—';
+    position: absolute;
+    left: 0;
+    color: var(--amber);
+    font-size: 14px;
+    top: 2px;
+  }
+
+  .doc-section ul li strong {
+    color: var(--text);
+    font-weight: 500;
+  }
+
+  a {
+    color: var(--amber);
+    text-decoration: none;
+  }
+
+  a:hover {
+    text-decoration: underline;
+  }
+
+  .doc-disclaimer {
+    margin-top: 56px;
+    padding: 24px 28px;
+    background: rgba(245,158,11,0.06);
+    border: 1px solid rgba(245,158,11,0.2);
+    border-radius: 12px;
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.7;
+    font-style: italic;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 32px 0;
+  }
+
+  .footer-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+
+  .footer-links {
+    display: flex;
+    gap: 24px;
+  }
+
+  .footer-links a {
+    font-size: 13px;
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .footer-links a:hover { color: var(--amber); }
+
+  .footer-legal {
+    width: 100%;
+    font-size: 12px;
+    color: var(--muted);
+    padding-top: 12px;
+    border-top: 1px solid var(--border);
+    margin-top: 4px;
+  }
+</style>
+</head>
+<body>
+
+<!-- ── NAV ── -->
+<nav>
+  <div class="nav-inner">
+    <a href="index.html" class="logo">
+      <div class="logo-mark">L</div>
+      <span class="logo-word">LifeDesk</span>
+    </a>
+    <a href="index.html" class="nav-back">← Back to home</a>
+  </div>
+</nav>
+
+<!-- ── MAIN ── -->
+<main>
+
+  <div class="doc-header">
+    <div class="doc-label">Legal</div>
+    <h1 class="doc-title">Privacy Policy</h1>
+    <div class="doc-meta">Last updated: <span>April 3, 2026</span> &nbsp;·&nbsp; Effective date: <span>April 3, 2026</span></div>
+    <p class="doc-intro">We know you're trusting us with sensitive information. We take that seriously. Here's exactly what we do with it.</p>
+  </div>
+
+  <div class="doc-body">
+
+    <div class="doc-section">
+      <div class="section-label">Data Collection</div>
+      <h2>What We Collect</h2>
+      <p>When you use LifeDesk, we collect:</p>
+      <ul>
+        <li><strong>Your name and email address</strong> — so we can communicate with you about your case</li>
+        <li><strong>Your medical bills</strong> — the documents you upload for us to review</li>
+        <li><strong>Your Explanation of Benefits (EOB)</strong> — from your insurer, showing what was paid and what you owe</li>
+        <li><strong>Your insurance plan documents</strong> — to understand your coverage and identify billing errors</li>
+        <li><strong>Basic case notes</strong> — our own notes about the dispute, kept internally</li>
+      </ul>
+      <p>We do not collect your Social Security Number, credit card information (billing is handled by Stripe, which has its own privacy policy), or any medical information beyond what you voluntarily share with us.</p>
+    </div>
+
+    <div class="doc-section">
+      <div class="section-label">Data Use</div>
+      <h2>How We Use It</h2>
+      <p>We use your information for one purpose: to provide the dispute service you've signed up for.</p>
+      <p>Specifically, we use it to:</p>
+      <ul>
+        <li>Analyze your bill for errors</li>
+        <li>Prepare appeal letters on your behalf</li>
+        <li>Communicate with your insurer as your authorized representative</li>
+        <li>Contact you with updates on your case</li>
+      </ul>
+      <p>We do not use your information for advertising, we do not build user profiles, and we do not train AI models on your medical data without your explicit consent.</p>
+    </div>
+
+    <div class="doc-section">
+      <div class="section-label">Storage &amp; Retention</div>
+      <h2>How We Store It</h2>
+      <p>Your documents are stored on Google Drive under a signed Business Associate Agreement (BAA) with Google, as required by HIPAA. All data is encrypted at rest and in transit using industry-standard encryption.</p>
+      <p>We retain your documents for 12 months after your case is resolved, in case questions arise about the outcome. After that, we delete them. You can request earlier deletion at any time (see below).</p>
+    </div>
+
+    <div class="doc-section">
+      <div class="section-label">Sharing</div>
+      <h2>Who We Share It With</h2>
+      <p>Almost no one.</p>
+      <p>The only time we share your information is when we submit an appeal to your insurer — and in that case, we're sharing only what's necessary to make the case, which is exactly the service you've asked us for.</p>
+      <p>We do not sell your data. We do not share it with data brokers. We do not share it with other healthcare companies, employers, or third parties. Ever.</p>
+      <p>Our subprocessors are limited to: Google (document storage, BAA in place) and Stripe (payment processing, no access to medical data).</p>
+    </div>
+
+    <div class="doc-section">
+      <div class="section-label">Your Rights</div>
+      <h2>Your Rights</h2>
+      <p>You can, at any time:</p>
+      <ul>
+        <li><strong>Request a copy</strong> of everything we have on you — email us and we'll send it within 5 business days</li>
+        <li><strong>Request deletion</strong> of your data — we'll delete everything within 7 business days, except where we're legally required to retain records</li>
+        <li><strong>Withdraw your authorization</strong> for us to act on your behalf — we'll stop all activity on your case within 48 hours</li>
+      </ul>
+      <p>To exercise any of these rights, email <a href="mailto:hello@getlifedesk.com">hello@getlifedesk.com</a>.</p>
+    </div>
+
+    <div class="doc-section">
+      <div class="section-label">Health Data</div>
+      <h2>HIPAA</h2>
+      <p>Your medical bills and insurance records contain Protected Health Information (PHI) under HIPAA. We handle your PHI as your authorized representative — the same legal basis a patient advocate or billing advocate would use. We comply with applicable HIPAA requirements for business associates, including maintaining the BAA with Google and limiting access to your PHI to personnel who need it to do their job.</p>
+    </div>
+
+    <div class="doc-section">
+      <div class="section-label">Get in Touch</div>
+      <h2>Contact</h2>
+      <p>Questions, requests, or concerns: <a href="mailto:hello@getlifedesk.com">hello@getlifedesk.com</a></p>
+      <p>We're a small team. We read every email.</p>
+    </div>
+
+    <div class="doc-disclaimer">
+      LifeDesk is operated by Raphaël Anselin, sole proprietor registered in Spain. We are not a law firm and do not provide legal advice. This privacy policy applies to services provided through getlifedesk.com.
+    </div>
+
+  </div>
+</main>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <div class="footer-inner">
+    <a href="index.html" class="logo">
+      <div class="logo-mark">L</div>
+      <span class="logo-word">LifeDesk</span>
+    </a>
+    <div class="footer-links">
+      <a href="privacy.html">Privacy</a>
+      <a href="terms.html">Terms</a>
+      <a href="mailto:hello@getlifedesk.com">Contact</a>
+    </div>
+    <div class="footer-legal">LifeDesk is not a law firm and does not provide legal advice.</div>
+  </div>
+</footer>
+
+</body>
+</html>

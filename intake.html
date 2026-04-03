@@ -1,0 +1,1096 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Submit Your Case — LifeDesk</title>
+  <meta name="description" content="Submit your medical bill for a free analysis. LifeDesk reviews your case within 24 hours and only charges 25% of what we recover." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --bg: #0a0a0a;
+      --surface: #111113;
+      --card: #18181b;
+      --amber: #f59e0b;
+      --amber-dim: rgba(245, 158, 11, 0.12);
+      --amber-hover: #d97706;
+      --emerald: #10b981;
+      --emerald-dim: rgba(16, 185, 129, 0.12);
+      --text: #f4f4f5;
+      --muted: #71717a;
+      --border: rgba(255,255,255,0.07);
+      --border-focus: rgba(245, 158, 11, 0.5);
+      --error: #f87171;
+      --error-dim: rgba(248, 113, 113, 0.1);
+      --input-bg: #0f0f11;
+    }
+
+    html {
+      font-size: 16px;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      line-height: 1.6;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ── NAV ── */
+    nav {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .nav-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 24px;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .nav-logo {
+      font-family: 'Instrument Serif', serif;
+      font-size: 1.25rem;
+      color: var(--text);
+      text-decoration: none;
+      letter-spacing: -0.01em;
+    }
+
+    .nav-logo span {
+      color: var(--amber);
+    }
+
+    .nav-back {
+      font-size: 0.8125rem;
+      font-weight: 500;
+      color: var(--muted);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: color 0.15s;
+    }
+
+    .nav-back:hover {
+      color: var(--text);
+    }
+
+    .nav-back svg {
+      width: 14px;
+      height: 14px;
+    }
+
+    /* ── MAIN CONTENT ── */
+    main {
+      flex: 1;
+      padding: 64px 24px 80px;
+    }
+
+    .content {
+      max-width: 560px;
+      margin: 0 auto;
+    }
+
+    /* ── PAGE HEADER ── */
+    .page-header {
+      margin-bottom: 40px;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--amber-dim);
+      border: 1px solid rgba(245, 158, 11, 0.25);
+      color: var(--amber);
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      padding: 5px 12px;
+      border-radius: 100px;
+      margin-bottom: 20px;
+    }
+
+    .badge-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--amber);
+      flex-shrink: 0;
+    }
+
+    h1 {
+      font-size: clamp(2rem, 5vw, 2.75rem);
+      line-height: 1.15;
+      letter-spacing: -0.03em;
+      color: var(--text);
+      margin-bottom: 16px;
+    }
+
+    h1 em {
+      font-family: 'Instrument Serif', serif;
+      font-style: italic;
+      font-weight: 400;
+    }
+
+    h1 strong {
+      font-family: 'Inter', sans-serif;
+      font-weight: 700;
+    }
+
+    .subtext {
+      font-size: 1rem;
+      color: var(--muted);
+      line-height: 1.65;
+      max-width: 480px;
+    }
+
+    /* ── WHAT YOU'LL NEED CARD ── */
+    .need-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 24px 28px;
+      margin-bottom: 36px;
+    }
+
+    .need-card-title {
+      font-size: 0.6875rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--amber);
+      margin-bottom: 16px;
+    }
+
+    .checklist {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    .checklist li {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 0.9rem;
+      color: var(--text);
+      line-height: 1.5;
+    }
+
+    .check-icon {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: var(--emerald-dim);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    .check-icon svg {
+      width: 10px;
+      height: 10px;
+      color: var(--emerald);
+    }
+
+    .checklist li .label {
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .checklist li .desc {
+      color: var(--muted);
+      font-size: 0.825rem;
+    }
+
+    .checklist li .optional-tag {
+      display: inline-block;
+      background: rgba(113, 113, 122, 0.15);
+      color: var(--muted);
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      padding: 1px 7px;
+      border-radius: 4px;
+      margin-left: 6px;
+      vertical-align: middle;
+    }
+
+    .need-note {
+      font-size: 0.825rem;
+      color: var(--muted);
+      padding-top: 16px;
+      border-top: 1px solid var(--border);
+      line-height: 1.55;
+    }
+
+    .need-note strong {
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    /* ── FORM ── */
+    #case-form {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .form-section-label {
+      font-size: 0.6875rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 4px;
+      margin-top: 8px;
+    }
+
+    .field-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    @media (max-width: 480px) {
+      .field-row {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .field label {
+      font-size: 0.8125rem;
+      font-weight: 500;
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .field label .opt {
+      font-size: 0.7rem;
+      font-weight: 400;
+      color: var(--muted);
+    }
+
+    .field input,
+    .field select,
+    .field textarea {
+      background: var(--input-bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      font-size: 0.9375rem;
+      padding: 11px 14px;
+      transition: border-color 0.15s, box-shadow 0.15s;
+      outline: none;
+      width: 100%;
+      -webkit-appearance: none;
+      appearance: none;
+    }
+
+    .field input::placeholder,
+    .field textarea::placeholder {
+      color: #3f3f46;
+    }
+
+    .field input:focus,
+    .field select:focus,
+    .field textarea:focus {
+      border-color: var(--border-focus);
+      box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.08);
+    }
+
+    .field input.error,
+    .field select.error,
+    .field textarea.error {
+      border-color: rgba(248, 113, 113, 0.5);
+      background: var(--error-dim);
+    }
+
+    .field-error-msg {
+      font-size: 0.75rem;
+      color: var(--error);
+      display: none;
+    }
+
+    .field.has-error .field-error-msg {
+      display: block;
+    }
+
+    .field select {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%2371717a' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 14px center;
+      padding-right: 36px;
+      cursor: pointer;
+    }
+
+    .field select option {
+      background: #1a1a1e;
+      color: var(--text);
+    }
+
+    .amount-wrapper {
+      position: relative;
+    }
+
+    .amount-wrapper .dollar {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--muted);
+      font-size: 0.9375rem;
+      pointer-events: none;
+      font-weight: 500;
+    }
+
+    .amount-wrapper input {
+      padding-left: 28px;
+    }
+
+    .field textarea {
+      resize: vertical;
+      min-height: 120px;
+      line-height: 1.55;
+    }
+
+    /* ── HOW IT WORKS ── */
+    .how-it-works {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 12px;
+      margin: 8px 0 0;
+    }
+
+    @media (max-width: 480px) {
+      .how-it-works {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .hiw-step {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 16px;
+    }
+
+    .hiw-step-label {
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--amber);
+      margin-bottom: 6px;
+    }
+
+    .hiw-step-title {
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 5px;
+    }
+
+    .hiw-step-desc {
+      font-size: 0.775rem;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    /* ── SUBMIT AREA ── */
+    .submit-area {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      padding-top: 8px;
+    }
+
+    .submit-btn {
+      width: 100%;
+      background: var(--amber);
+      color: #0a0a0a;
+      font-family: 'Inter', sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      border: none;
+      border-radius: 10px;
+      padding: 15px 24px;
+      cursor: pointer;
+      transition: background 0.15s, transform 0.1s, opacity 0.15s;
+      letter-spacing: -0.01em;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .submit-btn:hover:not(:disabled) {
+      background: var(--amber-hover);
+    }
+
+    .submit-btn:active:not(:disabled) {
+      transform: scale(0.99);
+    }
+
+    .submit-btn:disabled {
+      opacity: 0.7;
+      cursor: not-allowed;
+    }
+
+    .submit-note {
+      text-align: center;
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+
+    /* ── ERROR BANNER ── */
+    .form-error-banner {
+      background: var(--error-dim);
+      border: 1px solid rgba(248, 113, 113, 0.25);
+      border-radius: 8px;
+      padding: 14px 16px;
+      font-size: 0.875rem;
+      color: var(--error);
+      display: none;
+      align-items: flex-start;
+      gap: 10px;
+      line-height: 1.5;
+    }
+
+    .form-error-banner.visible {
+      display: flex;
+    }
+
+    .form-error-banner a {
+      color: var(--error);
+      text-decoration: underline;
+    }
+
+    /* ── SUCCESS STATE ── */
+    #success-state {
+      display: none;
+      text-align: center;
+      padding: 48px 0 24px;
+    }
+
+    #success-state.visible {
+      display: block;
+    }
+
+    .success-check {
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      background: var(--emerald-dim);
+      border: 2px solid rgba(16, 185, 129, 0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 28px;
+    }
+
+    .success-check svg {
+      width: 32px;
+      height: 32px;
+      color: var(--emerald);
+    }
+
+    .success-title {
+      font-family: 'Instrument Serif', serif;
+      font-size: 2.25rem;
+      font-weight: 400;
+      color: var(--text);
+      letter-spacing: -0.02em;
+      margin-bottom: 16px;
+    }
+
+    .success-body {
+      font-size: 1rem;
+      color: var(--muted);
+      line-height: 1.65;
+      max-width: 420px;
+      margin: 0 auto 12px;
+    }
+
+    .success-body strong {
+      color: var(--text);
+      font-weight: 500;
+    }
+
+    .success-tip {
+      font-size: 0.875rem;
+      color: var(--muted);
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 14px 18px;
+      margin: 24px auto;
+      max-width: 400px;
+      line-height: 1.55;
+    }
+
+    .success-tip strong {
+      color: var(--amber);
+      font-weight: 600;
+    }
+
+    .back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      font-size: 0.9375rem;
+      font-weight: 500;
+      padding: 12px 24px;
+      text-decoration: none;
+      cursor: pointer;
+      transition: background 0.15s, border-color 0.15s;
+      margin-top: 8px;
+    }
+
+    .back-btn:hover {
+      background: #222226;
+      border-color: rgba(255,255,255,0.12);
+    }
+
+    /* ── DIVIDER ── */
+    .divider {
+      height: 1px;
+      background: var(--border);
+      margin: 4px 0;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      padding: 36px 24px;
+    }
+
+    .footer-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .footer-logo {
+      font-family: 'Instrument Serif', serif;
+      font-size: 1.125rem;
+      color: var(--text);
+      text-decoration: none;
+    }
+
+    .footer-logo span {
+      color: var(--amber);
+    }
+
+    .footer-links {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .footer-links a {
+      font-size: 0.8125rem;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.15s;
+    }
+
+    .footer-links a:hover {
+      color: var(--text);
+    }
+
+    .footer-copy {
+      font-size: 0.75rem;
+      color: var(--muted);
+      width: 100%;
+    }
+
+    /* ── LOADING SPINNER ── */
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .spinner {
+      width: 16px;
+      height: 16px;
+      border: 2px solid rgba(10, 10, 10, 0.3);
+      border-top-color: #0a0a0a;
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+      display: none;
+    }
+
+    .submit-btn.loading .spinner {
+      display: block;
+    }
+
+    .submit-btn.loading .btn-text {
+      opacity: 0.7;
+    }
+
+    /* ── INPUT DATE STYLE ── */
+    input[type="date"]::-webkit-calendar-picker-indicator {
+      filter: invert(0.4);
+      cursor: pointer;
+    }
+
+    /* ── SCROLLBAR ── */
+    ::-webkit-scrollbar {
+      width: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: var(--bg);
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #2a2a2e;
+      border-radius: 3px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo">Life<span>Desk</span></a>
+      <a href="index.html" class="nav-back">
+        <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M9 2L4 7l5 5" />
+        </svg>
+        Back to home
+      </a>
+    </div>
+  </nav>
+
+  <!-- MAIN -->
+  <main>
+    <div class="content">
+
+      <!-- PAGE HEADER -->
+      <div class="page-header">
+        <div class="badge">
+          <div class="badge-dot"></div>
+          Free analysis &middot; No upfront cost
+        </div>
+        <h1><em>Tell us</em> <strong>about your bill.</strong></h1>
+        <p class="subtext">Fill this out and we'll analyze your bill within 24 hours. If we find something worth fighting, we'll handle everything — and only charge 25% of what we recover.</p>
+      </div>
+
+      <!-- WHAT YOU'LL NEED -->
+      <div class="need-card">
+        <div class="need-card-title">What you'll need</div>
+        <ul class="checklist">
+          <li>
+            <div class="check-icon">
+              <svg viewBox="0 0 10 8" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M1 4l3 3 5-6" />
+              </svg>
+            </div>
+            <div>
+              <span class="label">Itemized bill</span>
+              <br />
+              <span class="desc">From your hospital or provider — not the summary. The detailed line-item bill with CPT codes.</span>
+            </div>
+          </li>
+          <li>
+            <div class="check-icon">
+              <svg viewBox="0 0 10 8" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M1 4l3 3 5-6" />
+              </svg>
+            </div>
+            <div>
+              <span class="label">Explanation of Benefits (EOB)</span>
+              <br />
+              <span class="desc">From your insurer — the document showing what they paid and what they denied.</span>
+            </div>
+          </li>
+          <li>
+            <div class="check-icon">
+              <svg viewBox="0 0 10 8" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M1 4l3 3 5-6" />
+              </svg>
+            </div>
+            <div>
+              <span class="label">Insurance card</span>
+              <br />
+              <span class="desc">Front and back — we need your member ID, group number, and plan name.</span>
+            </div>
+          </li>
+          <li>
+            <div class="check-icon">
+              <svg viewBox="0 0 10 8" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M1 4l3 3 5-6" />
+              </svg>
+            </div>
+            <div>
+              <span class="label">Insurance plan document<span class="optional-tag">Optional</span></span>
+              <br />
+              <span class="desc">The booklet or PDF showing your coverage details, copays, and out-of-pocket limits.</span>
+            </div>
+          </li>
+        </ul>
+        <p class="need-note">
+          <strong>Don't have all of these yet?</strong> Submit anyway — we'll tell you exactly what to request and how to get it from your provider and insurer.
+        </p>
+      </div>
+
+      <!-- FORM -->
+      <form id="case-form" method="POST" action="https://formspree.io/f/xwpkvdgr" novalidate>
+        <!-- Hidden Formspree fields -->
+        <input type="hidden" name="_subject" value="New LifeDesk case submission" />
+        <input type="hidden" name="_replyto" id="replyto-hidden" value="" />
+
+        <!-- Contact Info -->
+        <div class="form-section-label">Your contact info</div>
+
+        <div class="field" id="field-name">
+          <label for="name">Your name</label>
+          <input type="text" id="name" name="name" placeholder="Jane Smith" autocomplete="name" />
+          <span class="field-error-msg">Please enter your name.</span>
+        </div>
+
+        <div class="field-row">
+          <div class="field" id="field-email">
+            <label for="email">Email address</label>
+            <input type="email" id="email" name="email" placeholder="jane@example.com" autocomplete="email" />
+            <span class="field-error-msg">Please enter a valid email.</span>
+          </div>
+          <div class="field" id="field-phone">
+            <label for="phone">Phone number <span class="opt">(optional)</span></label>
+            <input type="tel" id="phone" name="phone" placeholder="(555) 000-0000" autocomplete="tel" />
+          </div>
+        </div>
+
+        <!-- Bill Details -->
+        <div class="divider"></div>
+        <div class="form-section-label">Your bill details</div>
+
+        <div class="field" id="field-insurer">
+          <label for="insurer">Your insurer</label>
+          <select id="insurer" name="insurer">
+            <option value="" disabled selected>Select your insurance company</option>
+            <option value="Aetna">Aetna</option>
+            <option value="UnitedHealthcare">UnitedHealthcare</option>
+            <option value="Blue Cross Blue Shield">Blue Cross Blue Shield</option>
+            <option value="Cigna">Cigna</option>
+            <option value="Humana">Humana</option>
+            <option value="Other">Other</option>
+          </select>
+          <span class="field-error-msg">Please select your insurer.</span>
+        </div>
+
+        <div class="field" id="field-provider">
+          <label for="provider">Hospital or provider name</label>
+          <input type="text" id="provider" name="provider" placeholder="e.g. Memorial Regional Hospital" />
+          <span class="field-error-msg">Please enter the provider name.</span>
+        </div>
+
+        <div class="field-row">
+          <div class="field" id="field-amount">
+            <label for="amount">Approximate bill amount</label>
+            <div class="amount-wrapper">
+              <span class="dollar">$</span>
+              <input type="number" id="amount" name="amount" placeholder="4,200" min="0" step="1" />
+            </div>
+            <span class="field-error-msg">Please enter the bill amount.</span>
+          </div>
+          <div class="field" id="field-date">
+            <label for="service-date">Date of service</label>
+            <input type="date" id="service-date" name="service_date" />
+            <span class="field-error-msg">Please enter the date of service.</span>
+          </div>
+        </div>
+
+        <!-- What happened -->
+        <div class="divider"></div>
+        <div class="form-section-label">About your situation</div>
+
+        <div class="field" id="field-description">
+          <label for="description">What happened?</label>
+          <textarea
+            id="description"
+            name="description"
+            placeholder="Briefly describe the procedure or visit, and anything that seemed wrong with the bill. The more detail the better."
+          ></textarea>
+          <span class="field-error-msg">Please describe what happened.</span>
+        </div>
+
+        <div class="field" id="field-dispute">
+          <label for="dispute-status">Have you already tried to dispute this?</label>
+          <select id="dispute-status" name="dispute_status">
+            <option value="" disabled selected>Select one</option>
+            <option value="No — this is my first attempt">No — this is my first attempt</option>
+            <option value="Yes — I tried calling and got nowhere">Yes — I tried calling and got nowhere</option>
+            <option value="Yes — I filed an appeal and was denied">Yes — I filed an appeal and was denied</option>
+          </select>
+          <span class="field-error-msg">Please select a dispute status.</span>
+        </div>
+
+        <!-- How it works -->
+        <div class="how-it-works">
+          <div class="hiw-step">
+            <div class="hiw-step-label">Step 1</div>
+            <div class="hiw-step-title">We analyze</div>
+            <div class="hiw-step-desc">Within 24 hours we review your case and identify disputable errors.</div>
+          </div>
+          <div class="hiw-step">
+            <div class="hiw-step-label">Step 2</div>
+            <div class="hiw-step-title">You approve</div>
+            <div class="hiw-step-desc">We send you a summary of what we found. You decide whether to proceed.</div>
+          </div>
+          <div class="hiw-step">
+            <div class="hiw-step-label">Step 3</div>
+            <div class="hiw-step-title">We fight</div>
+            <div class="hiw-step-desc">We draft and send the appeal letter. You only pay 25% if we win.</div>
+          </div>
+        </div>
+
+        <!-- Error banner -->
+        <div class="form-error-banner" id="form-error-banner">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" style="flex-shrink:0;margin-top:1px">
+            <circle cx="8" cy="8" r="7" stroke="#f87171" stroke-width="1.5"/>
+            <path d="M8 5v3.5M8 11h.01" stroke="#f87171" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+          <span id="form-error-text">Something went wrong. Email us directly at <a href="mailto:cases@getlifedesk.com">cases@getlifedesk.com</a></span>
+        </div>
+
+        <!-- Submit -->
+        <div class="submit-area">
+          <button type="submit" class="submit-btn" id="submit-btn">
+            <div class="spinner"></div>
+            <span class="btn-text">Submit my case &rarr;</span>
+          </button>
+          <p class="submit-note">No payment required. We'll be in touch within 24 hours.</p>
+        </div>
+      </form>
+
+      <!-- SUCCESS STATE -->
+      <div id="success-state">
+        <div class="success-check">
+          <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M6 16l8 8 12-12" />
+          </svg>
+        </div>
+        <h2 class="success-title">Case submitted.</h2>
+        <p class="success-body">
+          Check your email — we'll send you a confirmation and <strong>a link to upload your documents</strong> within a few hours.
+        </p>
+        <div class="success-tip">
+          <strong>In the meantime:</strong> Gather your itemized bill, Explanation of Benefits (EOB), and insurance card so you're ready to upload when we reach out.
+        </div>
+        <a href="index.html" class="back-btn">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M10 3L5 8l5 5" />
+          </svg>
+          Back to home
+        </a>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-inner">
+      <a href="index.html" class="footer-logo">Life<span>Desk</span></a>
+      <div class="footer-links">
+        <a href="mailto:cases@getlifedesk.com">cases@getlifedesk.com</a>
+        <a href="index.html">Home</a>
+        <a href="intake.html">Submit a case</a>
+      </div>
+      <p class="footer-copy">&copy; 2025 LifeDesk. All rights reserved. Not a law firm. Results may vary.</p>
+    </div>
+  </footer>
+
+  <script>
+    const form = document.getElementById('case-form');
+    const submitBtn = document.getElementById('submit-btn');
+    const successState = document.getElementById('success-state');
+    const errorBanner = document.getElementById('form-error-banner');
+    const errorText = document.getElementById('form-error-text');
+    const emailInput = document.getElementById('email');
+    const replytoHidden = document.getElementById('replyto-hidden');
+
+    // Keep hidden _replyto in sync with email field
+    emailInput.addEventListener('input', () => {
+      replytoHidden.value = emailInput.value;
+    });
+
+    // Required fields config
+    const requiredFields = [
+      { id: 'name',           fieldId: 'field-name',        msg: 'Please enter your name.' },
+      { id: 'email',          fieldId: 'field-email',       msg: 'Please enter a valid email address.', type: 'email' },
+      { id: 'insurer',        fieldId: 'field-insurer',     msg: 'Please select your insurer.' },
+      { id: 'provider',       fieldId: 'field-provider',    msg: 'Please enter the provider name.' },
+      { id: 'amount',         fieldId: 'field-amount',      msg: 'Please enter the approximate bill amount.' },
+      { id: 'service-date',   fieldId: 'field-date',        msg: 'Please enter the date of service.' },
+      { id: 'description',    fieldId: 'field-description', msg: 'Please describe what happened.' },
+      { id: 'dispute-status', fieldId: 'field-dispute',     msg: 'Please select a dispute status.' },
+    ];
+
+    function validateEmail(val) {
+      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val);
+    }
+
+    function validateForm() {
+      let valid = true;
+
+      requiredFields.forEach(f => {
+        const el = document.getElementById(f.id);
+        const fieldWrapper = document.getElementById(f.fieldId);
+        const errMsg = fieldWrapper.querySelector('.field-error-msg');
+        const val = el.value.trim();
+        let fieldValid = val !== '' && val !== null;
+
+        if (f.type === 'email' && fieldValid) {
+          fieldValid = validateEmail(val);
+        }
+
+        if (!fieldValid) {
+          fieldWrapper.classList.add('has-error');
+          el.classList.add('error');
+          if (errMsg) errMsg.textContent = f.msg;
+          valid = false;
+        } else {
+          fieldWrapper.classList.remove('has-error');
+          el.classList.remove('error');
+        }
+      });
+
+      return valid;
+    }
+
+    // Clear error on input
+    requiredFields.forEach(f => {
+      const el = document.getElementById(f.id);
+      const fieldWrapper = document.getElementById(f.fieldId);
+      el.addEventListener('input', () => {
+        fieldWrapper.classList.remove('has-error');
+        el.classList.remove('error');
+        errorBanner.classList.remove('visible');
+      });
+      el.addEventListener('change', () => {
+        fieldWrapper.classList.remove('has-error');
+        el.classList.remove('error');
+        errorBanner.classList.remove('visible');
+      });
+    });
+
+    function setLoading(loading) {
+      if (loading) {
+        submitBtn.disabled = true;
+        submitBtn.classList.add('loading');
+        submitBtn.querySelector('.btn-text').textContent = 'Submitting...';
+      } else {
+        submitBtn.disabled = false;
+        submitBtn.classList.remove('loading');
+        submitBtn.querySelector('.btn-text').innerHTML = 'Submit my case &rarr;';
+      }
+    }
+
+    function showSuccess() {
+      form.style.display = 'none';
+      successState.classList.add('visible');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function showError(msg) {
+      errorText.innerHTML = msg || 'Something went wrong. Email us directly at <a href="mailto:cases@getlifedesk.com">cases@getlifedesk.com</a>';
+      errorBanner.classList.add('visible');
+      errorBanner.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      // Sync replyto
+      replytoHidden.value = emailInput.value;
+
+      // Validate
+      const valid = validateForm();
+      if (!valid) {
+        // Scroll to first error
+        const firstError = form.querySelector('.has-error');
+        if (firstError) {
+          firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+        return;
+      }
+
+      setLoading(true);
+      errorBanner.classList.remove('visible');
+
+      try {
+        const formData = new FormData(form);
+        const response = await fetch(form.action, {
+          method: 'POST',
+          body: formData,
+          headers: { 'Accept': 'application/json' }
+        });
+
+        if (response.ok) {
+          showSuccess();
+        } else {
+          const data = await response.json().catch(() => ({}));
+          if (data.errors) {
+            showError('Submission error: ' + data.errors.map(err => err.message).join(', '));
+          } else {
+            showError();
+          }
+          setLoading(false);
+        }
+      } catch (err) {
+        showError();
+        setLoading(false);
+      }
+    });
+  </script>
+</body>
+</html>

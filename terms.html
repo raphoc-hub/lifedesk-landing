@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Terms of Service — LifeDesk</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0a0a0a;
+    --surface: #111113;
+    --border: rgba(255,255,255,0.08);
+    --amber: #f59e0b;
+    --amber-dim: rgba(245,158,11,0.15);
+    --text: #f4f4f5;
+    --muted: #71717a;
+    --muted-light: #a1a1aa;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  /* ── NAV ── */
+  nav {
+    border-bottom: 1px solid var(--border);
+    padding: 16px 0;
+    position: sticky;
+    top: 0;
+    background: rgba(10,10,10,0.92);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    z-index: 100;
+  }
+
+  .nav-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+  }
+
+  .logo-mark {
+    width: 32px;
+    height: 32px;
+    background: var(--amber);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Instrument Serif', Georgia, serif;
+    font-size: 18px;
+    color: #0a0a0a;
+    font-weight: 400;
+    flex-shrink: 0;
+  }
+
+  .logo-word {
+    font-family: 'Instrument Serif', Georgia, serif;
+    font-size: 20px;
+    color: var(--text);
+    letter-spacing: -0.01em;
+  }
+
+  .nav-back {
+    font-size: 14px;
+    color: var(--muted-light);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: color 0.2s;
+  }
+
+  .nav-back:hover { color: var(--amber); }
+
+  /* ── MAIN CONTENT ── */
+  main {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 64px 24px 96px;
+  }
+
+  .doc-header {
+    margin-bottom: 56px;
+    padding-bottom: 40px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .doc-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--amber);
+    margin-bottom: 16px;
+  }
+
+  .doc-title {
+    font-family: 'Instrument Serif', Georgia, serif;
+    font-size: 40px;
+    font-weight: 400;
+    color: var(--text);
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    margin-bottom: 20px;
+  }
+
+  .doc-meta {
+    font-size: 13px;
+    color: var(--muted);
+  }
+
+  .doc-meta span { color: var(--muted-light); }
+
+  /* ── ARTICLE BODY ── */
+  .doc-body {
+    font-size: 16px;
+    line-height: 1.8;
+    color: var(--muted-light);
+  }
+
+  .doc-section {
+    margin-bottom: 52px;
+  }
+
+  .section-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--amber);
+    margin-bottom: 10px;
+  }
+
+  .doc-section h2 {
+    font-family: 'Inter', sans-serif;
+    font-size: 22px;
+    font-weight: 600;
+    color: #fff;
+    margin-bottom: 20px;
+    line-height: 1.3;
+  }
+
+  .doc-section p {
+    margin-bottom: 16px;
+  }
+
+  .doc-section p:last-child {
+    margin-bottom: 0;
+  }
+
+  .doc-section ul {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .doc-section ul li {
+    padding-left: 20px;
+    position: relative;
+    line-height: 1.7;
+  }
+
+  .doc-section ul li::before {
+    content: '—';
+    position: absolute;
+    left: 0;
+    color: var(--amber);
+    font-size: 14px;
+    top: 2px;
+  }
+
+  a {
+    color: var(--amber);
+    text-decoration: none;
+  }
+
+  a:hover {
+    text-decoration: underline;
+  }
+
+  .doc-disclaimer {
+    margin-top: 56px;
+    padding: 24px 28px;
+    background: rgba(245,158,11,0.06);
+    border: 1px solid rgba(245,158,11,0.2);
+    border-radius: 12px;
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.7;
+    font-style: italic;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 32px 0;
+  }
+
+  .footer-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+
+  .footer-links {
+    display: flex;
+    gap: 24px;
+  }
+
+  .footer-links a {
+    font-size: 13px;
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .footer-links a:hover { color: var(--amber); }
+
+  .footer-legal {
+    width: 100%;
+    font-size: 12px;
+    color: var(--muted);
+    padding-top: 12px;
+    border-top: 1px solid var(--border);
+    margin-top: 4px;
+  }
+</style>
+</head>
+<body>
+
+<!-- ── NAV ── -->
+<nav>
+  <div class="nav-inner">
+    <a href="index.html" class="logo">
+      <div class="logo-mark">L</div>
+      <span class="logo-word">LifeDesk</span>
+    </a>
+    <a href="index.html" class="nav-back">← Back to home</a>
+  </div>
+</nav>
+
+<!-- ── MAIN ── -->
+<main>
+
+  <div class="doc-header">
+    <div class="doc-label">Legal</div>
+    <h1 class="doc-title">Terms of Service</h1>
+    <div class="doc-meta">Last updated: <span>April 3, 2026</span> &nbsp;·&nbsp; Effective date: <span>April 3, 2026</span></div>
+  </div>
+
+  <div class="doc-body">
+
+    <div class="doc-section">
+      <div class="section-label">About the Service</div>
+      <h2>1. What LifeDesk Is (and Isn't)</h2>
+      <p>LifeDesk provides document preparation and administrative coordination services to help you dispute medical bills and insurance claim decisions. We review your bills and records, identify potential errors, prepare appeal letters, and follow up with insurers on your behalf.</p>
+      <p>We do NOT provide legal advice. We are not attorneys, and using our service does not create an attorney-client relationship. If you need legal advice, please consult a licensed attorney in your state.</p>
+    </div>
+
+    <div class="doc-section">
+      <div class="section-label">Process</div>
+      <h2>2. How It Works</h2>
+      <p>You upload your medical bill, Explanation of Benefits (EOB), and relevant insurance documents. We analyze them for potential errors — including CPT code unbundling, No Surprises Act violations, and deductible miscalculations. If we identify errors worth disputing, we prepare an appeal letter and submit it to your insurer on your behalf. We monitor the appeal and follow up as needed.</p>
+      <p>We will notify you of significant developments and will not take actions beyond document preparation and communication with your insurer without your approval.</p>
+    </div>
+
+    <div class="doc-section">
+      <div class="section-label">Authorization</div>
+      <h2>3. Your Authorization</h2>
+      <p>By using LifeDesk, you authorize us to:</p>
+      <ul>
+        <li>Review your medical bills, insurance records, and related documents</li>
+        <li>Contact your insurer on your behalf to submit appeals and request information</li>
+        <li>Act as your authorized representative for the limited purpose of disputing the specific bills or claims you've submitted to us</li>
+      </ul>
+      <p>This authorization is limited to the specific dispute(s) you've engaged us for. You can revoke it at any time by emailing <a href="mailto:hello@getlifedesk.com">hello@getlifedesk.com</a> — we will stop all activity on your behalf within 48 hours.</p>
+    </div>
+
+    <div class="doc-section">
+      <div class="section-label">Pricing</div>
+      <h2>4. Our Fees</h2>
+      <p>We charge 25% of the amount we actually recover for you — and nothing else.</p>
+      <p>"Recovery" means money returned to you, credits applied to your account, or reductions in your outstanding balance that result directly from our appeal work.</p>
+      <p>We invoice you only after a successful recovery. Payment is due within 7 days of invoice. If we don't recover anything, you owe us nothing.</p>
+      <p>We will never charge you an upfront fee, a review fee, or a monthly subscription.</p>
+    </div>
+
+    <div class="doc-section">
+      <div class="section-label">Outcomes</div>
+      <h2>5. No Guarantees</h2>
+      <p>We are good at what we do, and the data on medical billing appeals is encouraging — but we cannot guarantee any particular outcome. Every case is different. Submitting an appeal does not guarantee it will be accepted. We will always give you our honest assessment of whether we think a case is worth pursuing.</p>
+    </div>
+
+    <div class="doc-section">
+      <div class="section-label">Health Data</div>
+      <h2>6. Your Medical Information (HIPAA)</h2>
+      <p>Your medical bills and insurance records contain Protected Health Information (PHI) as defined under HIPAA. When you use LifeDesk, you are authorizing us to handle this information as your authorized representative for the limited purpose of disputing your medical bills.</p>
+      <p>How we handle your PHI:</p>
+      <ul>
+        <li>We encrypt all documents at rest and in transit</li>
+        <li>We do not sell, share, or disclose your PHI to any third party</li>
+        <li>The only exception is sharing necessary information with your insurer as part of the appeal process — which is the service you've engaged us for</li>
+        <li>We store documents on Google Drive under a signed Business Associate Agreement (BAA) as required by HIPAA</li>
+      </ul>
+    </div>
+
+    <div class="doc-section">
+      <div class="section-label">Liability</div>
+      <h2>7. What We're Responsible For</h2>
+      <p>We will do our best work on your behalf. If we make an error in document preparation that causes you harm, our liability is limited to the fees you've paid us for the specific dispute in question — which, given our fee model, is 25% of what we recovered. We are not liable for consequential damages, lost opportunities, or any outcomes related to your underlying medical condition or insurer decisions.</p>
+      <p>This limitation exists because we are a small company providing a document preparation service, not a law firm with malpractice insurance. If you have a dispute requiring legal representation, we will tell you and refer you accordingly.</p>
+    </div>
+
+    <div class="doc-section">
+      <div class="section-label">Jurisdiction</div>
+      <h2>8. Governing Law</h2>
+      <p>These Terms are governed by the laws of Spain and the European Union. Any disputes between us will be resolved in the courts of Spain.</p>
+      <p>We recognize that most of our customers are in the United States. Nothing in these Terms limits your rights under US federal or state consumer protection laws.</p>
+    </div>
+
+    <div class="doc-section">
+      <div class="section-label">Updates</div>
+      <h2>9. Changes to These Terms</h2>
+      <p>If we update these Terms in a material way, we'll email you at least 14 days before the changes take effect. Your continued use of LifeDesk after that date means you accept the updated Terms. If you don't agree, you can close your account at any time.</p>
+    </div>
+
+    <div class="doc-section">
+      <div class="section-label">Get in Touch</div>
+      <h2>10. Contact</h2>
+      <p>Questions about these Terms? Email us at <a href="mailto:hello@getlifedesk.com">hello@getlifedesk.com</a>. We're a small team and we actually read it.</p>
+    </div>
+
+    <div class="doc-disclaimer">
+      No attorney-client relationship is formed by using LifeDesk. We are not a law firm. We provide document preparation and administrative coordination services only. LifeDesk is operated by Raphaël Anselin, sole proprietor registered in Spain.
+    </div>
+
+  </div>
+</main>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <div class="footer-inner">
+    <a href="index.html" class="logo">
+      <div class="logo-mark">L</div>
+      <span class="logo-word">LifeDesk</span>
+    </a>
+    <div class="footer-links">
+      <a href="privacy.html">Privacy</a>
+      <a href="terms.html">Terms</a>
+      <a href="mailto:hello@getlifedesk.com">Contact</a>
+    </div>
+    <div class="footer-legal">LifeDesk is not a law firm and does not provide legal advice.</div>
+  </div>
+</footer>
+
+</body>
+</html>
