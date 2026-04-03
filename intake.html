@@ -498,7 +498,8 @@
     }
 
     /* ── DROPZONES ── */
-    .dropzone {
+    .dropzone { cursor: default; pointer-events: none; opacity: 0.85; }
+    .dropzone-orig {
       background: var(--white);
       border: 1.5px dashed var(--border2);
       border-radius: 14px;
@@ -1112,7 +1113,7 @@
       <!-- FORM CARD -->
       <div class="form-card">
         <!-- FORM -->
-        <form id="case-form" method="POST" action="https://formspree.io/f/xwvwrqry" enctype="multipart/form-data" novalidate>
+        <form id="case-form" method="POST" action="https://formspree.io/f/xwvwrqry" novalidate>
           <!-- Hidden Formspree fields -->
           <input type="hidden" name="_subject" value="New LifeDesk case submission" />
           <input type="hidden" name="_replyto" id="replyto-hidden" value="" />
@@ -1205,12 +1206,12 @@
 
           <!-- Document Upload -->
           <div class="divider"></div>
-          <div class="form-section-label" style="margin-top:8px;">Upload your documents</div>
-          <p class="upload-note">Optional but speeds things up — don't have them yet? Submit anyway.</p>
+          <div class="form-section-label" style="margin-top:8px;">Your documents</div>
+          <p class="upload-note">After submitting, email your documents directly to <a href="mailto:cases@getlifedesk.com" style="color:var(--green);font-weight:600;">cases@getlifedesk.com</a> — itemized bill, EOB, and insurance card. Don't have them yet? Submit anyway, we'll guide you.</p>
 
           <!-- Dropzone 1: Itemized Bill -->
-          <div class="dropzone" id="dz-bill" onclick="document.getElementById('bill-file').click()">
-            <input type="file" id="bill-file" name="itemized_bill" accept=".pdf,.jpg,.jpeg,.png,.heic" hidden />
+          <div class="dropzone" id="dz-bill">
+            
             <div class="dz-idle" id="dz-bill-idle">
               <div class="dz-icon">
                 <!-- Document SVG -->
@@ -1223,7 +1224,7 @@
                 </svg>
               </div>
               <div class="dz-title">Itemized bill <span class="dz-badge required">Required</span></div>
-              <div class="dz-sub">Drag &amp; drop or click — PDF, photo, or scan</div>
+              <div class="dz-sub">Email to cases@getlifedesk.com — PDF, photo, or scan</div>
               <div class="dz-hint">The detailed line-item bill with CPT codes — not the summary statement</div>
             </div>
             <div class="dz-preview" id="dz-bill-preview" style="display:none">
@@ -1242,8 +1243,8 @@
           </div>
 
           <!-- Dropzone 2: EOB -->
-          <div class="dropzone" id="dz-eob" onclick="document.getElementById('eob-file').click()">
-            <input type="file" id="eob-file" name="eob" accept=".pdf,.jpg,.jpeg,.png,.heic" hidden />
+          <div class="dropzone" id="dz-eob">
+            
             <div class="dz-idle" id="dz-eob-idle">
               <div class="dz-icon">
                 <!-- Clipboard SVG -->
@@ -1255,7 +1256,7 @@
                 </svg>
               </div>
               <div class="dz-title">Explanation of Benefits (EOB) <span class="dz-badge required">Required</span></div>
-              <div class="dz-sub">Drag &amp; drop or click — PDF, photo, or scan</div>
+              <div class="dz-sub">Email to cases@getlifedesk.com — PDF, photo, or scan</div>
               <div class="dz-hint">From your insurer — shows what they paid vs. what you owe</div>
             </div>
             <div class="dz-preview" id="dz-eob-preview" style="display:none">
@@ -1274,8 +1275,8 @@
           </div>
 
           <!-- Dropzone 3: Insurance card + plan doc -->
-          <div class="dropzone" id="dz-card" onclick="document.getElementById('card-file').click()">
-            <input type="file" id="card-file" name="insurance_docs" accept=".pdf,.jpg,.jpeg,.png,.heic" multiple hidden />
+          <div class="dropzone" id="dz-card">
+            
             <div class="dz-idle" id="dz-card-idle">
               <div class="dz-icon">
                 <!-- Card/wallet SVG -->
@@ -1286,7 +1287,7 @@
                 </svg>
               </div>
               <div class="dz-title">Insurance card + plan document <span class="dz-badge optional">Optional</span></div>
-              <div class="dz-sub">Drag &amp; drop or click — multiple files allowed</div>
+              <div class="dz-sub">Email to cases@getlifedesk.com — multiple files OK</div>
               <div class="dz-hint">Card front/back, or your plan document PDF — speeds up analysis</div>
             </div>
             <div class="dz-preview" id="dz-card-preview" style="display:none">
