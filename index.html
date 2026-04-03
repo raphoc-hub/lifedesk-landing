@@ -3,980 +3,1083 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>LifeDesk — Fight Your Medical Bills</title>
+<title>LifeDesk — Stop Overpaying Your Medical Bills</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,300;0,14..32,400;0,14..32,500;0,14..32,600;0,14..32,700;0,14..32,800;1,14..32,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --bg:       #080f1c;
-    --surface:  #0d1829;
-    --surface2: #111f35;
-    --border:   rgba(255,255,255,0.07);
-    --border2:  rgba(255,255,255,0.12);
-    --gold:     #f0a500;
-    --gold-dim: rgba(240,165,0,0.12);
-    --green:    #2ecc88;
-    --green-dim:rgba(46,204,136,0.1);
-    --red:      #e85555;
-    --red-dim:  rgba(232,85,85,0.1);
-    --yellow:   #f0c040;
-    --text:     #e8edf5;
-    --muted:    rgba(232,237,245,0.45);
-    --faint:    rgba(232,237,245,0.18);
-  }
+/* ─── TOKENS ─── */
+:root {
+  --black:   #09090b;
+  --ink:     #18181b;
+  --card:    #1c1c1f;
+  --lift:    #252529;
+  --border:  rgba(255,255,255,0.07);
+  --border2: rgba(255,255,255,0.12);
+  --amber:   #f59e0b;
+  --amber-2: #fbbf24;
+  --amber-bg:rgba(245,158,11,0.1);
+  --amber-border:rgba(245,158,11,0.2);
+  --emerald: #10b981;
+  --emerald-bg:rgba(16,185,129,0.08);
+  --rose:    #f43f5e;
+  --rose-bg: rgba(244,63,94,0.08);
+  --sky:     #38bdf8;
+  --white:   #fafafa;
+  --sub:     #a1a1aa;
+  --faint:   rgba(255,255,255,0.12);
+  --mono:    'JetBrains Mono', monospace;
+  --r8:  8px;  --r12: 12px; --r16: 16px; --r20: 20px; --r24: 24px;
+}
 
-  * { box-sizing: border-box; margin: 0; padding: 0; }
+/* ─── RESET ─── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--black);
+  color: var(--white);
+  font-family: 'Inter', sans-serif;
+  font-size: 15px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
 
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: 'Inter', sans-serif;
-    min-height: 100vh;
-    -webkit-font-smoothing: antialiased;
-  }
+/* ─── NAV ─── */
+nav {
+  position: sticky; top: 0; z-index: 200;
+  background: rgba(9,9,11,0.85);
+  backdrop-filter: blur(20px) saturate(150%);
+  border-bottom: 1px solid var(--border);
+}
+.nav-inner {
+  max-width: 1100px; margin: 0 auto;
+  padding: 0 24px;
+  height: 60px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.logo {
+  display: flex; align-items: center; gap: 9px;
+  font-weight: 700; font-size: 16px; letter-spacing: -0.4px;
+  text-decoration: none; color: var(--white);
+}
+.logo-sq {
+  width: 28px; height: 28px; border-radius: 8px;
+  background: var(--amber);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 14px; font-weight: 800; color: var(--black);
+}
+.nav-right { display: flex; align-items: center; gap: 12px; }
+.nav-link {
+  font-size: 13px; font-weight: 500; color: var(--sub);
+  background: none; border: none; cursor: pointer;
+  font-family: 'Inter', sans-serif;
+  transition: color .15s;
+}
+.nav-link:hover { color: var(--white); }
+.nav-cta {
+  background: var(--amber); color: var(--black);
+  border: none; border-radius: var(--r8);
+  padding: 9px 18px;
+  font-family: 'Inter', sans-serif;
+  font-size: 13px; font-weight: 700;
+  cursor: pointer; transition: all .15s;
+}
+.nav-cta:hover { background: var(--amber-2); transform: translateY(-1px); }
 
-  .wrap {
-    max-width: 460px;
-    margin: 0 auto;
-    padding: 0 20px;
-  }
+/* ─── HERO ─── */
+.hero {
+  max-width: 760px; margin: 0 auto;
+  padding: 100px 24px 80px;
+  text-align: center;
+}
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 7px;
+  background: var(--amber-bg); border: 1px solid var(--amber-border);
+  color: var(--amber);
+  font-size: 11px; font-weight: 600;
+  letter-spacing: .08em; text-transform: uppercase;
+  padding: 5px 14px; border-radius: 20px;
+  margin-bottom: 28px;
+}
+.pulse {
+  width: 6px; height: 6px; border-radius: 50%; background: var(--amber);
+  box-shadow: 0 0 0 0 rgba(245,158,11,0.6);
+  animation: pulse-anim 2s infinite;
+}
+@keyframes pulse-anim {
+  0% { box-shadow: 0 0 0 0 rgba(245,158,11,0.5); }
+  70% { box-shadow: 0 0 0 8px rgba(245,158,11,0); }
+  100% { box-shadow: 0 0 0 0 rgba(245,158,11,0); }
+}
+.hero h1 {
+  font-size: clamp(38px, 6.5vw, 64px);
+  font-weight: 800;
+  line-height: 1.07;
+  letter-spacing: -2.5px;
+  margin-bottom: 22px;
+}
+.hero h1 .hi { color: var(--amber); }
+.hero h1 .line2 { display: block; color: var(--sub); font-weight: 300; }
+.hero-sub {
+  font-size: clamp(15px, 2vw, 17px);
+  color: var(--sub);
+  max-width: 500px; margin: 0 auto 36px;
+  line-height: 1.7; font-weight: 400;
+}
+.hero-cta-group { display: flex; flex-direction: column; align-items: center; gap: 10px; }
+.cta-primary {
+  background: var(--amber); color: var(--black);
+  border: none; border-radius: var(--r12);
+  padding: 16px 36px;
+  font-family: 'Inter', sans-serif;
+  font-size: 15px; font-weight: 700;
+  cursor: pointer; transition: all .15s;
+  display: inline-flex; align-items: center; gap: 8px;
+}
+.cta-primary:hover { background: var(--amber-2); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(245,158,11,.25); }
+.hero-trust {
+  font-size: 12px; color: var(--faint);
+  display: flex; align-items: center; justify-content: center; gap: 6px;
+}
+.hero-trust span { color: var(--sub); }
+.dot-sep { width: 3px; height: 3px; background: var(--faint); border-radius: 50%; }
 
-  /* ── NAV ── */
-  nav {
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    background: rgba(8,15,28,0.92);
-    backdrop-filter: blur(16px);
-    border-bottom: 1px solid var(--border);
-  }
-  .nav-inner {
-    max-width: 460px;
-    margin: 0 auto;
-    padding: 16px 20px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-  .logo {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-weight: 600;
-    font-size: 15px;
-    letter-spacing: -0.3px;
-  }
-  .logo-mark {
-    width: 26px; height: 26px;
-    background: var(--gold);
-    border-radius: 7px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 13px;
-    color: #080f1c;
-    font-weight: 700;
-  }
-  .nav-btn {
-    background: transparent;
-    border: 1px solid var(--border2);
-    color: var(--muted);
-    padding: 8px 16px;
-    border-radius: 8px;
-    font-family: 'Inter', sans-serif;
-    font-size: 13px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.15s;
-  }
-  .nav-btn:hover { border-color: var(--gold); color: var(--gold); }
+/* ─── NUMBERS STRIP ─── */
+.numbers {
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  background: var(--ink);
+}
+.numbers-inner {
+  max-width: 1100px; margin: 0 auto;
+  padding: 0 24px;
+  display: grid; grid-template-columns: repeat(3, 1fr);
+}
+.number-item {
+  padding: 32px 24px;
+  border-right: 1px solid var(--border);
+  text-align: center;
+}
+.number-item:last-child { border-right: none; }
+.number-n {
+  font-size: 40px; font-weight: 800;
+  letter-spacing: -2px; color: var(--amber);
+  line-height: 1; margin-bottom: 6px;
+}
+.number-l {
+  font-size: 13px; color: var(--sub); line-height: 1.4;
+}
 
-  /* ── HERO ── */
-  .hero {
-    padding: 64px 20px 48px;
-    text-align: center;
-    max-width: 460px;
-    margin: 0 auto;
-  }
-  .badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    background: var(--gold-dim);
-    border: 1px solid rgba(240,165,0,0.2);
-    color: var(--gold);
-    font-size: 11px;
-    font-weight: 600;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    padding: 5px 12px;
-    border-radius: 20px;
-    margin-bottom: 24px;
-  }
-  .badge-dot {
-    width: 5px; height: 5px;
-    background: var(--gold);
-    border-radius: 50%;
-  }
-  .hero h1 {
-    font-size: clamp(30px, 7vw, 42px);
-    font-weight: 700;
-    line-height: 1.12;
-    letter-spacing: -1.5px;
-    margin-bottom: 18px;
-  }
-  .hero h1 em {
-    font-style: normal;
-    color: var(--gold);
-  }
-  .hero p {
-    color: var(--muted);
-    font-size: 15px;
-    line-height: 1.65;
-    max-width: 360px;
-    margin: 0 auto 40px;
-    font-weight: 400;
-  }
+/* ─── SECTION SHARED ─── */
+section { padding: 96px 24px; }
+.section-inner { max-width: 1100px; margin: 0 auto; }
+.eyebrow {
+  font-size: 11px; font-weight: 700;
+  letter-spacing: .1em; text-transform: uppercase;
+  color: var(--amber); margin-bottom: 12px;
+}
+.section-h {
+  font-size: clamp(26px, 4vw, 40px);
+  font-weight: 800; letter-spacing: -1.5px;
+  line-height: 1.1; margin-bottom: 16px;
+}
+.section-p {
+  font-size: 16px; color: var(--sub);
+  max-width: 500px; line-height: 1.7;
+}
 
-  /* ── STATS GRID ── */
-  .stats {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
-    margin-bottom: 40px;
-    max-width: 460px;
-    margin-left: auto;
-    margin-right: auto;
-    padding: 0 20px;
-  }
-  .stat {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 16px 18px;
-  }
-  .stat-n {
-    font-size: 22px;
-    font-weight: 700;
-    color: var(--gold);
-    letter-spacing: -0.5px;
-    margin-bottom: 3px;
-  }
-  .stat-l {
-    font-size: 11px;
-    color: var(--muted);
-    font-weight: 400;
-    line-height: 1.4;
-  }
+/* ─── HOW IT WORKS ─── */
+.how { background: var(--ink); }
+.steps {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 2px; margin-top: 56px;
+  border: 1px solid var(--border); border-radius: var(--r20);
+  overflow: hidden;
+}
+.step {
+  background: var(--card);
+  padding: 32px 28px;
+  position: relative;
+}
+.step-num {
+  font-size: 11px; font-weight: 700;
+  letter-spacing: .1em; text-transform: uppercase;
+  color: var(--faint); font-family: var(--mono);
+  margin-bottom: 20px;
+}
+.step-icon {
+  width: 44px; height: 44px; border-radius: var(--r12);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 20px; margin-bottom: 18px;
+}
+.step h3 {
+  font-size: 17px; font-weight: 700;
+  letter-spacing: -.3px; margin-bottom: 8px;
+}
+.step p { font-size: 13px; color: var(--sub); line-height: 1.65; }
+.step-connector {
+  position: absolute; right: -12px; top: 50%;
+  transform: translateY(-50%);
+  width: 22px; height: 22px;
+  background: var(--lift); border: 1px solid var(--border2);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 10px; color: var(--sub); z-index: 1;
+}
+.step:last-child .step-connector { display: none; }
 
-  /* ── TABS ── */
-  .tabs {
-    display: flex;
-    gap: 2px;
-    padding: 0 20px;
-    margin-bottom: 24px;
-    max-width: 460px;
-    margin-left: auto;
-    margin-right: auto;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 4px;
-  }
-  .tab {
-    flex: 1;
-    padding: 9px 8px;
-    border-radius: 9px;
-    font-size: 12px;
-    font-weight: 500;
-    cursor: pointer;
-    border: none;
-    background: transparent;
-    color: var(--muted);
-    transition: all 0.15s;
-    font-family: 'Inter', sans-serif;
-    white-space: nowrap;
-  }
-  .tab.active {
-    background: var(--surface2);
-    color: var(--text);
-    border: 1px solid var(--border2);
-  }
+/* ─── DEMO ─── */
+.demo-wrap {
+  max-width: 520px; margin: 0 auto;
+}
+.window {
+  background: var(--card);
+  border: 1px solid var(--border2);
+  border-radius: var(--r20);
+  overflow: hidden;
+  box-shadow: 0 32px 80px rgba(0,0,0,.6), 0 0 0 1px rgba(255,255,255,0.04);
+}
+.window-bar {
+  background: var(--lift);
+  padding: 12px 16px;
+  display: flex; align-items: center; gap: 8px;
+  border-bottom: 1px solid var(--border);
+}
+.traffic { display: flex; gap: 6px; }
+.tc { width: 11px; height: 11px; border-radius: 50%; }
+.tc-r { background: #ff5f57; } .tc-y { background: #febc2e; } .tc-g { background: #28c840; }
+.win-title-bar {
+  flex: 1; text-align: center;
+  font-size: 12px; color: var(--sub);
+  font-family: var(--mono);
+}
+.window-body { padding: 0; }
 
-  /* ── SCREENS ── */
-  .screen { display: none; }
-  .screen.active { display: block; }
+/* Tabs inside window */
+.win-tabs {
+  display: flex; gap: 1px;
+  background: var(--ink); padding: 4px;
+}
+.win-tab {
+  flex: 1; padding: 8px 4px;
+  text-align: center;
+  font-size: 11px; font-weight: 500;
+  color: var(--sub); cursor: pointer;
+  border: none; background: none;
+  font-family: 'Inter', sans-serif;
+  border-radius: 6px;
+  transition: all .15s;
+}
+.win-tab.active { background: var(--card); color: var(--white); }
 
-  /* ── UPLOAD SCREEN ── */
-  .upload-zone {
-    background: var(--surface);
-    border: 1.5px dashed var(--border2);
-    border-radius: 16px;
-    padding: 36px 24px;
-    text-align: center;
-    cursor: pointer;
-    transition: all 0.2s;
-    margin-bottom: 16px;
-  }
-  .upload-zone:hover, .upload-zone.drag {
-    border-color: var(--gold);
-    background: var(--gold-dim);
-  }
-  .upload-icon {
-    width: 48px; height: 48px;
-    background: var(--gold-dim);
-    border: 1px solid rgba(240,165,0,0.2);
-    border-radius: 12px;
-    display: flex; align-items: center; justify-content: center;
-    margin: 0 auto 14px;
-    font-size: 20px;
-  }
-  .upload-zone h3 {
-    font-size: 15px;
-    font-weight: 600;
-    margin-bottom: 5px;
-  }
-  .upload-zone p {
-    color: var(--muted);
-    font-size: 13px;
-    margin-bottom: 20px;
-  }
-  .primary-btn {
-    background: var(--gold);
-    color: #080f1c;
-    border: none;
-    padding: 13px 28px;
-    border-radius: 10px;
-    font-family: 'Inter', sans-serif;
-    font-size: 14px;
-    font-weight: 700;
-    cursor: pointer;
-    transition: all 0.15s;
-    display: inline-block;
-  }
-  .primary-btn:hover { background: #ffb820; transform: translateY(-1px); }
+.win-screen { display: none; }
+.win-screen.active { display: block; }
 
-  /* ── BILL SUMMARY (replaces dense monospace) ── */
-  .bill-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 14px;
-    overflow: hidden;
-    margin-bottom: 16px;
-  }
-  .bill-card-header {
-    padding: 14px 16px;
-    border-bottom: 1px solid var(--border);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-  .bill-provider {
-    font-size: 13px;
-    font-weight: 600;
-  }
-  .bill-date {
-    font-size: 11px;
-    color: var(--muted);
-    margin-top: 2px;
-  }
-  .bill-amount-badge {
-    background: var(--red-dim);
-    border: 1px solid rgba(232,85,85,0.2);
-    color: var(--red);
-    font-size: 13px;
-    font-weight: 700;
-    padding: 5px 10px;
-    border-radius: 8px;
-  }
-  .bill-lines {
-    padding: 4px 0;
-  }
-  .bill-row {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 9px 16px;
-    border-bottom: 1px solid var(--border);
-    font-size: 12px;
-  }
-  .bill-row:last-child { border-bottom: none; }
-  .bill-row-flag {
-    width: 6px; height: 6px;
-    border-radius: 50%;
-    flex-shrink: 0;
-  }
-  .flag-red { background: var(--red); box-shadow: 0 0 6px rgba(232,85,85,0.5); }
-  .flag-yellow { background: var(--yellow); box-shadow: 0 0 6px rgba(240,192,64,0.5); }
-  .flag-none { background: var(--faint); }
-  .bill-row-label { flex: 1; color: var(--muted); }
-  .bill-row-label strong { color: var(--text); font-weight: 500; }
-  .bill-row-amt { font-size: 12px; color: var(--text); font-family: 'JetBrains Mono', monospace; }
-  .bill-row.flagged .bill-row-amt { color: var(--red); }
+/* Upload screen */
+.upload-area {
+  padding: 28px 20px 20px;
+}
+.bill-doc {
+  background: var(--ink);
+  border: 1px solid var(--border);
+  border-radius: var(--r12);
+  margin-bottom: 14px;
+  overflow: hidden;
+}
+.bill-doc-top {
+  padding: 14px 16px 12px;
+  border-bottom: 1px solid var(--border);
+  display: flex; justify-content: space-between; align-items: flex-start;
+}
+.bill-doc-title { font-size: 13px; font-weight: 600; margin-bottom: 2px; }
+.bill-doc-meta { font-size: 11px; color: var(--sub); }
+.bill-amt-tag {
+  background: var(--rose-bg);
+  border: 1px solid rgba(244,63,94,0.2);
+  color: var(--rose);
+  font-size: 12px; font-weight: 700;
+  padding: 4px 10px; border-radius: 6px;
+}
+.bill-rows { padding: 4px 0; }
+.bill-r {
+  display: flex; align-items: center; gap: 10px;
+  padding: 8px 16px;
+  border-bottom: 1px solid var(--border);
+}
+.bill-r:last-child { border-bottom: none; }
+.bill-flag {
+  width: 5px; height: 5px; border-radius: 50%; flex-shrink: 0;
+}
+.bf-red { background: var(--rose); box-shadow: 0 0 5px rgba(244,63,94,.6); }
+.bf-amber { background: var(--amber); box-shadow: 0 0 5px rgba(245,158,11,.6); }
+.bf-off { background: rgba(255,255,255,.15); }
+.bill-code { font-size: 11px; font-family: var(--mono); color: var(--sub); flex-shrink: 0; width: 40px; }
+.bill-desc { font-size: 12px; color: var(--sub); flex: 1; }
+.bill-desc strong { color: rgba(255,255,255,.8); font-weight: 500; }
+.bill-price { font-size: 12px; font-family: var(--mono); flex-shrink: 0; }
+.bill-r.bad .bill-price { color: var(--rose); }
 
-  /* ── ANALYSIS ── */
-  .analysis-box {
-    display: none;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 14px;
-    padding: 18px;
-    margin-bottom: 16px;
-  }
-  .analysis-box.visible { display: block; }
-  .analysis-title { font-size: 13px; font-weight: 600; margin-bottom: 2px; }
-  .analysis-sub { font-size: 11px; color: var(--muted); margin-bottom: 16px; }
-  .analysis-step {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 8px 0;
-    opacity: 0;
-    transform: translateY(4px);
-    transition: all 0.25s;
-    border-bottom: 1px solid var(--border);
-  }
-  .analysis-step:last-child { border-bottom: none; }
-  .analysis-step.done { opacity: 1; transform: translateY(0); }
-  .step-ic {
-    width: 24px; height: 24px;
-    border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 11px;
-    flex-shrink: 0;
-    background: var(--surface2);
-  }
-  .step-ic.loading { animation: pulse 1.2s infinite; }
-  .step-ic.ok { background: var(--green-dim); color: var(--green); }
-  .step-txt { font-size: 12px; color: var(--muted); }
-  .step-txt strong { color: var(--text); font-weight: 500; }
-  @keyframes pulse { 0%,100%{opacity:0.35} 50%{opacity:1} }
+.drop-zone {
+  border: 1.5px dashed var(--border2);
+  border-radius: var(--r12);
+  padding: 24px 16px;
+  text-align: center;
+  cursor: pointer;
+  transition: all .2s;
+}
+.drop-zone:hover, .drop-zone.dragging {
+  border-color: var(--amber);
+  background: var(--amber-bg);
+}
+.drop-icon {
+  width: 40px; height: 40px;
+  background: var(--amber-bg); border: 1px solid var(--amber-border);
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px; margin: 0 auto 10px;
+}
+.drop-zone h4 { font-size: 14px; font-weight: 600; margin-bottom: 4px; }
+.drop-zone p { font-size: 12px; color: var(--sub); margin-bottom: 14px; }
+.btn-amber {
+  background: var(--amber); color: var(--black);
+  border: none; border-radius: 8px;
+  padding: 10px 22px;
+  font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 700;
+  cursor: pointer; transition: all .15s; display: inline-block;
+}
+.btn-amber:hover { background: var(--amber-2); transform: translateY(-1px); }
 
-  /* ── RESULTS ── */
-  .results-box { display: none; }
-  .results-box.visible { display: block; }
-  .results-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 12px;
-  }
-  .results-title { font-size: 14px; font-weight: 600; }
-  .recovery-badge {
-    background: var(--gold-dim);
-    border: 1px solid rgba(240,165,0,0.25);
-    color: var(--gold);
-    font-size: 13px;
-    font-weight: 700;
-    padding: 5px 12px;
-    border-radius: 20px;
-  }
-  .finding {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 14px 16px;
-    margin-bottom: 8px;
-    display: flex;
-    gap: 12px;
-    align-items: flex-start;
-    opacity: 0;
-    transform: translateY(6px);
-    transition: all 0.3s;
-  }
-  .finding.visible { opacity: 1; transform: translateY(0); }
-  .finding-dot {
-    width: 8px; height: 8px;
-    border-radius: 50%;
-    margin-top: 5px;
-    flex-shrink: 0;
-  }
-  .dot-red { background: var(--red); box-shadow: 0 0 8px rgba(232,85,85,0.4); }
-  .dot-yellow { background: var(--yellow); box-shadow: 0 0 8px rgba(240,192,64,0.4); }
-  .finding-body { flex: 1; }
-  .finding-name { font-size: 13px; font-weight: 600; margin-bottom: 3px; }
-  .finding-desc { font-size: 11px; color: var(--muted); line-height: 1.5; }
-  .finding-val { text-align: right; flex-shrink: 0; }
-  .finding-val .amount { font-size: 15px; font-weight: 700; color: var(--gold); }
-  .finding-val .label { font-size: 10px; color: var(--faint); margin-top: 1px; }
+/* Analysis */
+.analysis-wrap {
+  display: none; padding: 20px;
+}
+.analysis-wrap.show { display: block; }
+.analysis-hd { font-size: 13px; font-weight: 600; margin-bottom: 2px; }
+.analysis-sub-txt { font-size: 11px; color: var(--sub); margin-bottom: 16px; }
+.a-step {
+  display: flex; align-items: center; gap: 10px;
+  padding: 9px 0;
+  border-bottom: 1px solid var(--border);
+  opacity: 0; transform: translateY(3px);
+  transition: all .25s;
+}
+.a-step:last-child { border-bottom: none; }
+.a-step.done { opacity: 1; transform: none; }
+.a-ic {
+  width: 22px; height: 22px; border-radius: 50%; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 10px; background: var(--lift);
+}
+.a-ic.spin { animation: spin-pulse 1s infinite; }
+.a-ic.ok { background: var(--emerald-bg); color: var(--emerald); }
+@keyframes spin-pulse { 0%,100%{opacity:.3}50%{opacity:1} }
+.a-txt { font-size: 12px; color: var(--sub); }
+.a-txt b { color: var(--white); font-weight: 500; }
 
-  .cta-full {
-    background: var(--gold);
-    color: #080f1c;
-    border: none;
-    width: 100%;
-    padding: 16px;
-    border-radius: 12px;
-    font-family: 'Inter', sans-serif;
-    font-size: 15px;
-    font-weight: 700;
-    cursor: pointer;
-    margin-top: 16px;
-    display: none;
-    transition: all 0.15s;
-  }
-  .cta-full.visible { display: block; animation: up 0.35s ease; }
-  .cta-full:hover { background: #ffb820; transform: translateY(-1px); }
-  .cta-note {
-    text-align: center;
-    font-size: 11px;
-    color: var(--faint);
-    margin-top: 8px;
-    display: none;
-  }
-  .cta-note.visible { display: block; }
-  @keyframes up { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
+/* Results */
+.results-wrap { display: none; padding: 16px 20px 20px; }
+.results-wrap.show { display: block; }
+.results-hd {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-bottom: 12px;
+}
+.results-hd h4 { font-size: 13px; font-weight: 600; }
+.recover-tag {
+  background: var(--amber-bg); border: 1px solid var(--amber-border);
+  color: var(--amber); font-size: 12px; font-weight: 700;
+  padding: 4px 10px; border-radius: 20px;
+}
+.finding {
+  display: flex; align-items: flex-start; gap: 10px;
+  background: var(--ink); border: 1px solid var(--border);
+  border-radius: var(--r12); padding: 12px 14px;
+  margin-bottom: 8px;
+  opacity: 0; transform: translateY(6px); transition: all .3s;
+}
+.finding.show { opacity: 1; transform: none; }
+.f-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; margin-top: 5px; }
+.f-dot-red { background: var(--rose); box-shadow: 0 0 6px rgba(244,63,94,.5); }
+.f-dot-amber { background: var(--amber); box-shadow: 0 0 6px rgba(245,158,11,.5); }
+.f-body { flex: 1; }
+.f-name { font-size: 12px; font-weight: 600; margin-bottom: 2px; }
+.f-desc { font-size: 11px; color: var(--sub); line-height: 1.5; }
+.f-amt { flex-shrink: 0; text-align: right; }
+.f-amt .big { font-size: 14px; font-weight: 700; color: var(--amber); }
+.f-amt .sm { font-size: 10px; color: var(--faint); }
+.btn-dispute {
+  width: 100%; background: var(--amber); color: var(--black);
+  border: none; border-radius: 10px;
+  padding: 14px; font-family: 'Inter', sans-serif;
+  font-size: 14px; font-weight: 700; cursor: pointer;
+  margin-top: 14px; display: none; transition: all .15s;
+}
+.btn-dispute.show { display: block; animation: slideup .3s ease; }
+.btn-dispute:hover { background: var(--amber-2); }
+.dispute-note { font-size: 11px; color: var(--faint); text-align: center; margin-top: 6px; display: none; }
+.dispute-note.show { display: block; }
+@keyframes slideup { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:none} }
 
-  /* ── TIMELINE SCREEN ── */
-  .case-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 14px;
-    padding: 18px;
-    margin-bottom: 18px;
-  }
-  .case-id-label { font-size: 10px; font-family: 'JetBrains Mono', monospace; color: var(--faint); margin-bottom: 4px; letter-spacing: 0.04em; text-transform: uppercase; }
-  .case-name { font-size: 15px; font-weight: 600; margin-bottom: 12px; }
-  .pills { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 12px; }
-  .pill {
-    background: var(--surface2);
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    padding: 4px 10px;
-    font-size: 11px;
-    color: var(--muted);
-  }
-  .pill strong { color: var(--text); font-weight: 600; }
-  .live-tag {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    background: var(--green-dim);
-    border: 1px solid rgba(46,204,136,0.2);
-    color: var(--green);
-    padding: 5px 10px;
-    border-radius: 6px;
-    font-size: 11px;
-    font-weight: 500;
-  }
-  .live-dot {
-    width: 5px; height: 5px;
-    background: var(--green);
-    border-radius: 50%;
-    animation: blink 2s infinite;
-  }
-  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.25} }
+/* Timeline screen */
+.tl-area { padding: 20px; }
+.case-hd {
+  background: var(--ink); border: 1px solid var(--border);
+  border-radius: var(--r12); padding: 14px 16px; margin-bottom: 16px;
+}
+.case-ref { font-size: 10px; font-family: var(--mono); color: var(--faint); margin-bottom: 4px; text-transform: uppercase; }
+.case-nm { font-size: 14px; font-weight: 600; margin-bottom: 10px; }
+.case-pills { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 10px; }
+.cpill {
+  background: var(--lift); border: 1px solid var(--border);
+  border-radius: 5px; padding: 3px 9px;
+  font-size: 10px; color: var(--sub);
+}
+.cpill b { color: var(--white); }
+.live-badge {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: var(--emerald-bg); border: 1px solid rgba(16,185,129,.2);
+  color: var(--emerald); padding: 4px 10px; border-radius: 5px;
+  font-size: 10px; font-weight: 500;
+}
+.blink { width: 5px; height: 5px; border-radius: 50%; background: var(--emerald); animation: blink 2s infinite; }
+@keyframes blink { 0%,100%{opacity:1}50%{opacity:.2} }
 
-  .tl { position: relative; padding-left: 18px; margin-bottom: 18px; }
-  .tl::before {
-    content: '';
-    position: absolute;
-    left: 6px; top: 0; bottom: 0;
-    width: 1px;
-    background: var(--border);
-  }
-  .tl-row {
-    position: relative;
-    padding: 0 0 22px 18px;
-  }
-  .tl-dot {
-    position: absolute;
-    left: -12px; top: 3px;
-    width: 13px; height: 13px;
-    border-radius: 50%;
-    border: 2px solid var(--bg);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 7px;
-  }
-  .tl-dot.done { background: var(--green); color: #080f1c; }
-  .tl-dot.now {
-    background: var(--gold);
-    box-shadow: 0 0 10px rgba(240,165,0,0.35);
-    animation: ring 2s infinite;
-  }
-  .tl-dot.later { background: var(--surface2); border: 1px solid var(--border); }
-  @keyframes ring {
-    0% { box-shadow: 0 0 0 0 rgba(240,165,0,0.35); }
-    70% { box-shadow: 0 0 0 7px rgba(240,165,0,0); }
-    100% { box-shadow: 0 0 0 0 rgba(240,165,0,0); }
-  }
-  .tl-day { font-size: 10px; font-family: 'JetBrains Mono', monospace; color: var(--faint); margin-bottom: 2px; text-transform: uppercase; }
-  .tl-title { font-size: 13px; font-weight: 600; margin-bottom: 2px; }
-  .tl-row.now-row .tl-title { color: var(--gold); }
-  .tl-row.later-row .tl-title { color: var(--faint); }
-  .tl-desc { font-size: 11px; color: var(--muted); line-height: 1.55; }
-  .tl-row.later-row .tl-desc { color: var(--faint); }
+.tl { position: relative; padding-left: 16px; }
+.tl::before { content:''; position:absolute; left:5px; top:0; bottom:0; width:1px; background: var(--border); }
+.tl-item { position: relative; padding: 0 0 20px 16px; }
+.tl-dot {
+  position: absolute; left: -11px; top: 2px;
+  width: 12px; height: 12px; border-radius: 50%;
+  border: 2px solid var(--black);
+  display: flex; align-items: center; justify-content: center; font-size: 6px;
+}
+.td-done { background: var(--emerald); color: var(--black); }
+.td-now {
+  background: var(--amber);
+  box-shadow: 0 0 0 0 rgba(245,158,11,.4);
+  animation: ring 2s infinite;
+}
+.td-later { background: var(--lift); border-color: var(--border); }
+@keyframes ring {
+  0%{box-shadow:0 0 0 0 rgba(245,158,11,.4)}
+  70%{box-shadow:0 0 0 6px rgba(245,158,11,0)}
+  100%{box-shadow:0 0 0 0 rgba(245,158,11,0)}
+}
+.tl-d { font-size: 9px; font-family: var(--mono); color: var(--faint); margin-bottom: 2px; text-transform: uppercase; }
+.tl-t { font-size: 12px; font-weight: 600; margin-bottom: 2px; }
+.tl-now .tl-t { color: var(--amber); }
+.tl-later .tl-t { color: var(--faint); }
+.tl-desc-txt { font-size: 11px; color: var(--sub); line-height: 1.5; }
+.tl-later .tl-desc-txt { color: var(--faint); }
 
-  .letter-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 14px;
-    padding: 18px;
-    margin-bottom: 18px;
-  }
-  .letter-eyebrow { font-size: 10px; font-weight: 600; letter-spacing: 0.07em; text-transform: uppercase; color: var(--muted); margin-bottom: 12px; }
-  .letter-body {
-    font-size: 11.5px;
-    line-height: 1.85;
-    color: var(--muted);
-    font-family: 'JetBrains Mono', monospace;
-    border-left: 2px solid rgba(240,165,0,0.35);
-    padding-left: 14px;
-    max-height: 150px;
-    overflow: hidden;
-    position: relative;
-  }
-  .letter-body::after {
-    content: '';
-    position: absolute;
-    bottom: 0; left: 0; right: 0;
-    height: 48px;
-    background: linear-gradient(transparent, var(--surface));
-  }
-  .letter-body em { color: var(--text); font-style: normal; }
+.letter-snip {
+  background: var(--ink); border: 1px solid var(--border);
+  border-radius: var(--r12); padding: 14px 16px;
+}
+.letter-ey { font-size: 9px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--sub); margin-bottom: 10px; }
+.letter-txt {
+  font-size: 11px; font-family: var(--mono); color: var(--sub);
+  line-height: 1.85; border-left: 2px solid rgba(245,158,11,.3);
+  padding-left: 12px; max-height: 130px; overflow: hidden;
+  position: relative;
+}
+.letter-txt::after {
+  content:''; position:absolute; bottom:0; left:0; right:0; height:40px;
+  background: linear-gradient(transparent, var(--ink));
+}
+.letter-txt em { color: var(--white); font-style: normal; }
 
-  /* ── WIN SCREEN ── */
-  .win-card {
-    background: linear-gradient(145deg, #071a0f, #061411);
-    border: 1px solid rgba(46,204,136,0.2);
-    border-radius: 18px;
-    padding: 28px 22px;
-    margin-bottom: 16px;
-    text-align: center;
-    position: relative;
-    overflow: hidden;
-  }
-  .win-card::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: radial-gradient(ellipse at top, rgba(46,204,136,0.07), transparent 55%);
-  }
-  .win-icon { font-size: 40px; display: block; margin-bottom: 10px; animation: bounce 0.7s ease; }
-  @keyframes bounce { 0%,100%{transform:translateY(0)} 35%{transform:translateY(-10px)} 65%{transform:translateY(-3px)} }
-  .win-ref { font-size: 10px; font-family: 'JetBrains Mono', monospace; color: rgba(46,204,136,0.5); margin-bottom: 6px; text-transform: uppercase; }
-  .win-headline { font-size: 17px; font-weight: 700; color: var(--green); margin-bottom: 20px; }
-  .win-breakdown {
-    background: rgba(255,255,255,0.03);
-    border-radius: 10px;
-    padding: 14px;
-    margin-bottom: 18px;
-    text-align: left;
-  }
-  .win-row {
-    display: flex;
-    justify-content: space-between;
-    padding: 5px 0;
-    font-size: 13px;
-  }
-  .win-row .lbl { color: var(--muted); }
-  .win-row .val { font-weight: 600; }
-  .win-row.recovered .val { color: var(--green); font-size: 20px; font-weight: 700; }
-  .win-row.fee .val { color: var(--muted); }
-  .win-row.net { border-top: 1px solid var(--border); margin-top: 6px; padding-top: 11px; }
-  .win-row.net .val { color: var(--gold); font-size: 18px; font-weight: 700; }
-  .win-note { font-size: 12px; color: var(--faint); }
+/* Win screen */
+.win-area { padding: 20px; }
+.win-banner {
+  background: linear-gradient(145deg, #06150d, #081810);
+  border: 1px solid rgba(16,185,129,.2);
+  border-radius: var(--r16); padding: 24px 20px;
+  text-align: center; position: relative; overflow: hidden;
+  margin-bottom: 14px;
+}
+.win-banner::before {
+  content:''; position:absolute; inset:0;
+  background: radial-gradient(ellipse at top, rgba(16,185,129,.07) 0%, transparent 55%);
+}
+.win-em { font-size: 36px; display: block; margin-bottom: 8px; animation: bounce .7s ease; }
+@keyframes bounce { 0%,100%{transform:translateY(0)}35%{transform:translateY(-9px)}65%{transform:translateY(-3px)} }
+.win-ref-lbl { font-size: 9px; font-family: var(--mono); color: rgba(16,185,129,.5); margin-bottom: 5px; text-transform: uppercase; }
+.win-hl { font-size: 16px; font-weight: 700; color: var(--emerald); margin-bottom: 16px; }
+.win-rows {
+  background: rgba(255,255,255,.03); border-radius: 8px;
+  padding: 12px; margin-bottom: 14px; text-align: left;
+}
+.win-row { display: flex; justify-content: space-between; padding: 4px 0; font-size: 12px; }
+.win-row .l { color: var(--sub); }
+.win-row .v { font-weight: 600; }
+.win-row.rec .v { color: var(--emerald); font-size: 19px; font-weight: 800; }
+.win-row.fee .v { color: var(--sub); }
+.win-row.net { border-top: 1px solid var(--border); margin-top: 5px; padding-top: 9px; }
+.win-row.net .v { color: var(--amber); font-size: 17px; font-weight: 800; }
+.win-note-txt { font-size: 11px; color: var(--faint); }
 
-  .share-btn {
-    width: 100%;
-    background: transparent;
-    border: 1px solid rgba(46,204,136,0.3);
-    color: var(--green);
-    padding: 13px;
-    border-radius: 10px;
-    font-family: 'Inter', sans-serif;
-    font-size: 13px;
-    font-weight: 600;
-    cursor: pointer;
-    margin-bottom: 10px;
-    display: flex; align-items: center; justify-content: center; gap: 7px;
-    transition: all 0.15s;
-  }
-  .share-btn:hover { background: var(--green-dim); }
+.share-action {
+  width: 100%; background: transparent;
+  border: 1px solid rgba(16,185,129,.3); color: var(--emerald);
+  padding: 12px; border-radius: 9px;
+  font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 600;
+  cursor: pointer; margin-bottom: 10px;
+  display: flex; align-items: center; justify-content: center; gap: 6px;
+  transition: all .15s;
+}
+.share-action:hover { background: var(--emerald-bg); }
+.upgrade-mini {
+  background: var(--ink); border: 1px solid var(--border);
+  border-radius: var(--r12); padding: 16px;
+}
+.up-ey { font-size: 9px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--amber); margin-bottom: 5px; }
+.up-t { font-size: 13px; font-weight: 700; margin-bottom: 4px; }
+.up-d { font-size: 11px; color: var(--sub); line-height: 1.5; margin-bottom: 12px; }
+.up-perks { margin-bottom: 12px; }
+.up-perk { font-size: 11px; color: var(--sub); padding: 3px 0; display: flex; gap: 7px; }
+.up-perk::before { content:'✓'; color: var(--amber); font-size: 10px; font-weight: 700; }
+.btn-upgrade {
+  width: 100%; background: var(--amber); color: var(--black);
+  border: none; border-radius: 8px; padding: 12px;
+  font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 700;
+  cursor: pointer; transition: all .15s;
+}
+.btn-upgrade:hover { background: var(--amber-2); }
+.up-price { font-size: 10px; color: var(--faint); text-align: center; margin-top: 6px; }
 
-  .pro-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 14px;
-    padding: 20px;
-    margin-bottom: 12px;
-  }
-  .pro-eyebrow { font-size: 10px; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; color: var(--gold); margin-bottom: 6px; }
-  .pro-title { font-size: 15px; font-weight: 700; margin-bottom: 5px; }
-  .pro-desc { font-size: 12px; color: var(--muted); line-height: 1.55; margin-bottom: 16px; }
-  .perks { margin-bottom: 16px; }
-  .perk { font-size: 12px; color: var(--muted); padding: 4px 0; display: flex; align-items: center; gap: 8px; }
-  .perk::before { content: '✓'; color: var(--gold); font-size: 11px; font-weight: 700; }
-  .pro-btn {
-    width: 100%;
-    background: var(--gold);
-    color: #080f1c;
-    border: none;
-    padding: 14px;
-    border-radius: 10px;
-    font-family: 'Inter', sans-serif;
-    font-size: 14px;
-    font-weight: 700;
-    cursor: pointer;
-    transition: all 0.15s;
-  }
-  .pro-btn:hover { background: #ffb820; transform: translateY(-1px); }
-  .pro-price { font-size: 11px; color: var(--faint); text-align: center; margin-top: 7px; }
+/* ─── PROOF SECTION ─── */
+.proof { background: var(--ink); }
+.proof-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 16px; margin-top: 48px;
+}
+.proof-card {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: var(--r16); padding: 24px;
+}
+.proof-amount {
+  font-size: 32px; font-weight: 800; letter-spacing: -1.5px;
+  color: var(--emerald); margin-bottom: 4px;
+}
+.proof-insurer { font-size: 12px; font-weight: 600; margin-bottom: 8px; }
+.proof-quote { font-size: 13px; color: var(--sub); line-height: 1.6; font-style: italic; margin-bottom: 14px; }
+.proof-meta { font-size: 11px; color: var(--faint); }
 
-  .another-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 14px;
-    padding: 20px;
-    text-align: center;
-  }
-  .another-card p { font-size: 13px; color: var(--muted); line-height: 1.55; margin-bottom: 14px; }
-  .ghost-btn {
-    background: transparent;
-    border: 1px solid var(--border2);
-    color: var(--text);
-    padding: 11px 24px;
-    border-radius: 9px;
-    font-family: 'Inter', sans-serif;
-    font-size: 13px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.15s;
-  }
-  .ghost-btn:hover { border-color: var(--gold); color: var(--gold); }
+/* ─── PRICING ─── */
+.pricing-grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 16px; margin-top: 48px;
+  max-width: 720px; margin-left: auto; margin-right: auto;
+}
+.price-card {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: var(--r20); padding: 28px;
+}
+.price-card.featured {
+  border-color: var(--amber);
+  background: linear-gradient(145deg, var(--card), rgba(245,158,11,.04));
+  position: relative;
+}
+.featured-tag {
+  position: absolute; top: -1px; right: 24px;
+  background: var(--amber); color: var(--black);
+  font-size: 10px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase;
+  padding: 4px 10px; border-radius: 0 0 8px 8px;
+}
+.price-plan { font-size: 13px; font-weight: 600; color: var(--sub); margin-bottom: 8px; }
+.price-amt { font-size: 36px; font-weight: 800; letter-spacing: -2px; margin-bottom: 4px; }
+.price-amt span { font-size: 16px; font-weight: 500; color: var(--sub); letter-spacing: 0; }
+.price-sub { font-size: 13px; color: var(--sub); margin-bottom: 24px; line-height: 1.5; }
+.price-list { list-style: none; margin-bottom: 28px; }
+.price-list li {
+  font-size: 13px; color: var(--sub); padding: 5px 0;
+  display: flex; gap: 10px; align-items: flex-start;
+}
+.price-list li::before { content:'✓'; color: var(--emerald); font-weight: 700; font-size: 12px; flex-shrink: 0; margin-top: 1px; }
+.btn-plan {
+  width: 100%; border: 1px solid var(--border2); background: transparent;
+  color: var(--white); border-radius: 10px; padding: 13px;
+  font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 600;
+  cursor: pointer; transition: all .15s;
+}
+.btn-plan:hover { border-color: var(--white); }
+.featured .btn-plan {
+  background: var(--amber); border-color: var(--amber); color: var(--black);
+}
+.featured .btn-plan:hover { background: var(--amber-2); }
 
-  /* padding at bottom for scroll comfort */
-  .screen { padding-bottom: 64px; }
+/* ─── FINAL CTA ─── */
+.final-cta {
+  background: var(--ink);
+  border-top: 1px solid var(--border);
+  padding: 100px 24px;
+  text-align: center;
+}
+.final-cta h2 {
+  font-size: clamp(28px, 4.5vw, 48px);
+  font-weight: 800; letter-spacing: -2px;
+  line-height: 1.1; margin-bottom: 16px;
+}
+.final-cta p { font-size: 16px; color: var(--sub); margin-bottom: 32px; }
+
+/* ─── FOOTER ─── */
+footer {
+  border-top: 1px solid var(--border);
+  padding: 32px 24px;
+}
+.footer-inner {
+  max-width: 1100px; margin: 0 auto;
+  display: flex; justify-content: space-between; align-items: center;
+  flex-wrap: wrap; gap: 12px;
+}
+footer .logo { font-size: 14px; }
+.footer-links { display: flex; gap: 20px; }
+.footer-links a { font-size: 12px; color: var(--sub); text-decoration: none; transition: color .15s; }
+.footer-links a:hover { color: var(--white); }
+.footer-copy { font-size: 12px; color: var(--faint); }
+
+/* ─── RESPONSIVE ─── */
+@media (max-width: 680px) {
+  .numbers-inner { grid-template-columns: 1fr; }
+  .number-item { border-right: none; border-bottom: 1px solid var(--border); }
+  .number-item:last-child { border-bottom: none; }
+  .steps { grid-template-columns: 1fr; }
+  .step-connector { display: none !important; }
+  .proof-grid { grid-template-columns: 1fr; }
+  .pricing-grid { grid-template-columns: 1fr; }
+  .footer-inner { flex-direction: column; text-align: center; }
+}
 </style>
 </head>
 <body>
 
-<!-- NAV -->
+<!-- ═══ NAV ═══ -->
 <nav>
   <div class="nav-inner">
-    <div class="logo">
-      <div class="logo-mark">L</div>
+    <a class="logo" href="#">
+      <div class="logo-sq">L</div>
       LifeDesk
+    </a>
+    <div class="nav-right">
+      <button class="nav-link" onclick="document.getElementById('demo').scrollIntoView({behavior:'smooth'})">See how it works</button>
+      <button class="nav-cta" onclick="document.getElementById('demo').scrollIntoView({behavior:'smooth'})">Analyze my bill →</button>
     </div>
-    <button class="nav-btn" onclick="switchTab(2)">See a win →</button>
   </div>
 </nav>
 
-<!-- HERO -->
+<!-- ═══ HERO ═══ -->
+<section style="padding:0;">
 <div class="hero">
-  <div class="badge"><span class="badge-dot"></span> Medical bills</div>
-  <h1>Your insurance<br>owes you <em>$4,740</em></h1>
-  <p>We read your bill, find the errors, fight back automatically. You pay 25% of what we recover — nothing if we lose.</p>
-</div>
-
-<!-- STATS -->
-<div class="stats">
-  <div class="stat">
-    <div class="stat-n">$88B</div>
-    <div class="stat-l">Annual billing errors in the US</div>
-  </div>
-  <div class="stat">
-    <div class="stat-n">54%</div>
-    <div class="stat-l">Appeal win rate on first try</div>
-  </div>
-  <div class="stat">
-    <div class="stat-n">$1,300</div>
-    <div class="stat-l">Average patient overcharge</div>
-  </div>
-  <div class="stat">
-    <div class="stat-n">0 risk</div>
-    <div class="stat-l">Free if we lose your case</div>
-  </div>
-</div>
-
-<!-- TABS -->
-<div class="tabs wrap" style="display:flex; margin-bottom:20px;">
-  <button class="tab active" onclick="switchTab(0)">Upload bill</button>
-  <button class="tab" onclick="switchTab(1)">Case in progress</button>
-  <button class="tab" onclick="switchTab(2)">We won</button>
-</div>
-
-<!-- ═══ SCREEN 1: UPLOAD ═══ -->
-<div class="screen active wrap" id="screen-0">
-
-  <!-- Simplified bill summary -->
-  <div class="bill-card">
-    <div class="bill-card-header">
-      <div>
-        <div class="bill-provider">St. Vincent Medical Center</div>
-        <div class="bill-date">Cleveland, OH · Oct 14, 2025 · Sarah M.</div>
-      </div>
-      <div class="bill-amount-badge">$10,400</div>
-    </div>
-    <div class="bill-lines">
-      <div class="bill-row">
-        <div class="bill-row-flag flag-none"></div>
-        <div class="bill-row-label"><strong>99285</strong> — EM Eval, high complexity</div>
-        <div class="bill-row-amt">$3,200</div>
-      </div>
-      <div class="bill-row flagged">
-        <div class="bill-row-flag flag-red"></div>
-        <div class="bill-row-label"><strong>99291</strong> — Critical care, 1st hr</div>
-        <div class="bill-row-amt">$2,100</div>
-      </div>
-      <div class="bill-row flagged">
-        <div class="bill-row-flag flag-yellow"></div>
-        <div class="bill-row-label"><strong>27520</strong> — Radiology (Dr. Patel, OON)</div>
-        <div class="bill-row-amt">$2,100</div>
-      </div>
-      <div class="bill-row">
-        <div class="bill-row-flag flag-none"></div>
-        <div class="bill-row-label"><strong>44950</strong> — Appendectomy</div>
-        <div class="bill-row-amt">$7,400</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Upload zone -->
-  <div class="upload-zone" id="uploadZone" onclick="startAnalysis()">
-    <div class="upload-icon">📋</div>
-    <h3>Upload your bill or EOB</h3>
-    <p>PDF, photo, or scan — any format works</p>
-    <button class="primary-btn">Analyze this bill →</button>
-  </div>
-
-  <!-- Analysis -->
-  <div class="analysis-box" id="analysisBox">
-    <div class="analysis-title">Analyzing your bill…</div>
-    <div class="analysis-sub">Usually takes under 5 seconds</div>
-    <div class="analysis-step" id="step1">
-      <div class="step-ic loading">⏳</div>
-      <div class="step-txt">Reading bill — <strong>identifying CPT codes</strong></div>
-    </div>
-    <div class="analysis-step" id="step2">
-      <div class="step-ic loading">⏳</div>
-      <div class="step-txt">Comparing against <strong>Aetna Bronze HSA plan</strong></div>
-    </div>
-    <div class="analysis-step" id="step3">
-      <div class="step-ic loading">⏳</div>
-      <div class="step-txt">Checking <strong>No Surprises Act</strong> compliance</div>
-    </div>
-    <div class="analysis-step" id="step4">
-      <div class="step-ic loading">⏳</div>
-      <div class="step-txt">Calculating <strong>recoverable amount</strong></div>
-    </div>
-  </div>
-
-  <!-- Results -->
-  <div class="results-box" id="resultsBox">
-    <div class="results-header">
-      <div class="results-title">3 issues found</div>
-      <div class="recovery-badge">$4,740 recoverable</div>
-    </div>
-
-    <div class="finding" id="finding1">
-      <div class="finding-dot dot-red"></div>
-      <div class="finding-body">
-        <div class="finding-name">Unbundling violation</div>
-        <div class="finding-desc">CPT 99285 + 99291 cannot be billed together under CMS NCCI Policy §B.1. The second code must be removed.</div>
-      </div>
-      <div class="finding-val">
-        <div class="amount">$1,840</div>
-        <div class="label">est. recovery</div>
-      </div>
-    </div>
-
-    <div class="finding" id="finding2">
-      <div class="finding-dot dot-yellow"></div>
-      <div class="finding-body">
-        <div class="finding-name">No Surprises Act violation</div>
-        <div class="finding-desc">Dr. Patel (radiologist) was out-of-network with no prior notice. Federal law caps your liability at in-network rates.</div>
-      </div>
-      <div class="finding-val">
-        <div class="amount">$2,100</div>
-        <div class="label">est. recovery</div>
-      </div>
-    </div>
-
-    <div class="finding" id="finding3">
-      <div class="finding-dot dot-yellow"></div>
-      <div class="finding-body">
-        <div class="finding-name">Deductible miscalculation</div>
-        <div class="finding-desc">Aetna applied $4,800 deductible vs. your plan's $4,000 — $800 overcharge included ineligible charges.</div>
-      </div>
-      <div class="finding-val">
-        <div class="amount">$800</div>
-        <div class="label">est. recovery</div>
-      </div>
-    </div>
-
-    <button class="cta-full" id="disputeCta" onclick="switchTab(1)">
-      Start dispute — zero risk →
+  <div class="hero-badge"><span class="pulse"></span>No win, no fee</div>
+  <h1>
+    Stop overpaying<br>
+    <em class="hi">your medical bills.</em>
+    <span class="line2">We fight. You collect.</span>
+  </h1>
+  <p class="hero-sub">LifeDesk reads your bill, finds the errors, and sends the appeal automatically. You only pay 25% of what we recover — nothing if we don't win.</p>
+  <div class="hero-cta-group">
+    <button class="cta-primary" onclick="document.getElementById('demo').scrollIntoView({behavior:'smooth'})">
+      Analyze my bill free →
     </button>
-    <div class="cta-note" id="ctaNote">25% only if we win. Nothing if we don't.</div>
+    <div class="hero-trust">
+      <span>25% fee only if we win</span>
+      <span class="dot-sep"></span>
+      <span>Results in 30 days</span>
+      <span class="dot-sep"></span>
+      <span>HIPAA compliant</span>
+    </div>
   </div>
+</div>
+</section>
 
+<!-- ═══ NUMBERS ═══ -->
+<div class="numbers">
+  <div class="numbers-inner">
+    <div class="number-item">
+      <div class="number-n">$88B</div>
+      <div class="number-l">Medical billing errors<br>overcharge Americans every year</div>
+    </div>
+    <div class="number-item">
+      <div class="number-n">54%</div>
+      <div class="number-l">Of insurance appeals<br>are won on the first attempt</div>
+    </div>
+    <div class="number-item">
+      <div class="number-n">$1,300</div>
+      <div class="number-l">Average overcharge<br>per patient per hospital stay</div>
+    </div>
+  </div>
 </div>
 
-<!-- ═══ SCREEN 2: TIMELINE ═══ -->
-<div class="screen wrap" id="screen-1">
-
-  <div class="case-card">
-    <div class="case-id-label">Case #A-1847 · Aetna Bronze HSA</div>
-    <div class="case-name">St. Vincent Medical Center — Appendectomy</div>
-    <div class="pills">
-      <div class="pill">Opened <strong>Oct 28, 2025</strong></div>
-      <div class="pill">Disputes <strong>3 issues</strong></div>
-      <div class="pill">Target <strong>$4,740</strong></div>
-    </div>
-    <div class="live-tag">
-      <div class="live-dot"></div>
-      Agent monitoring · next check in 18 hours
-    </div>
-  </div>
-
-  <div class="tl">
-    <div class="tl-row">
-      <div class="tl-dot done">✓</div>
-      <div class="tl-day">Day 1 · Oct 28</div>
-      <div class="tl-title">Appeal letter sent to Aetna Arizona</div>
-      <div class="tl-desc">Certified email to appeals.az@aetna.com. Cited CPT bundling policy, No Surprises Act §2799A-1, and plan page 74. Delivered 9:14 AM.</div>
-    </div>
-    <div class="tl-row">
-      <div class="tl-dot done">✓</div>
-      <div class="tl-day">Day 7 · Nov 4</div>
-      <div class="tl-title">Follow-up sent — no response</div>
-      <div class="tl-desc">Automated follow-up citing 30-day statutory response window. CC'd Arizona Dept. of Insurance.</div>
-    </div>
-    <div class="tl-row">
-      <div class="tl-dot done">✓</div>
-      <div class="tl-day">Day 14 · Nov 11</div>
-      <div class="tl-title">Escalation via certified mail</div>
-      <div class="tl-desc">USPS tracking #9400111899228029124. Delivery confirmed Nov 12 at 11:32 AM.</div>
-    </div>
-    <div class="tl-row now-row">
-      <div class="tl-dot now"></div>
-      <div class="tl-day">Day 21 · Nov 18</div>
-      <div class="tl-title">Awaiting response</div>
-      <div class="tl-desc">Aetna has 9 days remaining under ACA §1557 to respond. Agent polling every 48 hours.</div>
-    </div>
-    <div class="tl-row later-row">
-      <div class="tl-dot later"></div>
-      <div class="tl-day">Day 30 · Nov 27</div>
-      <div class="tl-title">External review filing</div>
-      <div class="tl-desc">If unresolved — agent files with MAXIMUS Federal Services. 70% win rate at external review.</div>
+<!-- ═══ HOW IT WORKS ═══ -->
+<section class="how">
+  <div class="section-inner">
+    <div class="eyebrow">How it works</div>
+    <h2 class="section-h">Three steps.<br>We handle all of them.</h2>
+    <p class="section-p">Most people never dispute a bill because the process is designed to be painful. LifeDesk makes it automatic.</p>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">01 —</div>
+        <div class="step-icon" style="background:var(--amber-bg);">📋</div>
+        <h3>Upload your bill</h3>
+        <p>Drop your itemized bill or Explanation of Benefits. PDF, photo, or scan — any format works. Takes 30 seconds.</p>
+        <div class="step-connector">→</div>
+      </div>
+      <div class="step">
+        <div class="step-num">02 —</div>
+        <div class="step-icon" style="background:var(--rose-bg);">🔍</div>
+        <h3>We find the errors</h3>
+        <p>Our AI checks for unbundling violations, No Surprises Act breaches, deductible errors, and duplicate charges — against your specific plan.</p>
+        <div class="step-connector">→</div>
+      </div>
+      <div class="step">
+        <div class="step-num">03 —</div>
+        <div class="step-icon" style="background:var(--emerald-bg);">⚖️</div>
+        <h3>We fight and collect</h3>
+        <p>We draft the legal appeal letter, send it to your insurer with certified tracking, and follow up automatically for 30 days.</p>
+        <div class="step-connector">→</div>
+      </div>
     </div>
   </div>
+</section>
 
-  <div class="letter-card">
-    <div class="letter-eyebrow">Appeal letter · sent Oct 28</div>
-    <div class="letter-body">
+<!-- ═══ DEMO ═══ -->
+<section id="demo">
+  <div class="section-inner" style="text-align:center;">
+    <div class="eyebrow">Live demo</div>
+    <h2 class="section-h" style="max-width:540px;margin:0 auto 14px;">See exactly what<br>we find in your bill.</h2>
+    <p class="section-p" style="margin:0 auto 48px;">Click "Analyze this bill" to watch the analysis run in real time.</p>
+    <div class="demo-wrap">
+      <div class="window">
+        <div class="window-bar">
+          <div class="traffic"><div class="tc tc-r"></div><div class="tc tc-y"></div><div class="tc tc-g"></div></div>
+          <div class="win-title-bar">LifeDesk — case #A-1847</div>
+        </div>
+        <div class="win-tabs">
+          <button class="win-tab active" onclick="wTab(0)">Upload bill</button>
+          <button class="win-tab" onclick="wTab(1)">Case progress</button>
+          <button class="win-tab" onclick="wTab(2)">We won 🎉</button>
+        </div>
+
+        <!-- SCREEN 0: UPLOAD -->
+        <div class="win-screen active" id="ws0">
+          <div class="upload-area">
+            <div class="bill-doc">
+              <div class="bill-doc-top">
+                <div>
+                  <div class="bill-doc-title">St. Vincent Medical Center</div>
+                  <div class="bill-doc-meta">Cleveland, OH · Oct 14, 2025 · Sarah M.</div>
+                </div>
+                <div class="bill-amt-tag">$10,400</div>
+              </div>
+              <div class="bill-rows">
+                <div class="bill-r">
+                  <div class="bill-flag bf-off"></div>
+                  <div class="bill-code">99285</div>
+                  <div class="bill-desc"><strong>EM Eval</strong>, high complexity</div>
+                  <div class="bill-price">$3,200</div>
+                </div>
+                <div class="bill-r bad">
+                  <div class="bill-flag bf-red"></div>
+                  <div class="bill-code">99291</div>
+                  <div class="bill-desc"><strong>Critical care</strong>, 1st hour</div>
+                  <div class="bill-price">$2,100</div>
+                </div>
+                <div class="bill-r bad">
+                  <div class="bill-flag bf-amber"></div>
+                  <div class="bill-code">27520</div>
+                  <div class="bill-desc"><strong>Radiology</strong> — Dr. Patel (OON)</div>
+                  <div class="bill-price">$2,100</div>
+                </div>
+                <div class="bill-r">
+                  <div class="bill-flag bf-off"></div>
+                  <div class="bill-code">44950</div>
+                  <div class="bill-desc"><strong>Appendectomy</strong></div>
+                  <div class="bill-price">$7,400</div>
+                </div>
+              </div>
+            </div>
+            <div class="drop-zone" id="dropZone" onclick="startDemo()">
+              <div class="drop-icon">📋</div>
+              <h4>Upload your bill or EOB</h4>
+              <p>PDF, photo, or scan — any format works</p>
+              <button class="btn-amber">Analyze this bill →</button>
+            </div>
+          </div>
+          <div class="analysis-wrap" id="analysisWrap">
+            <div class="analysis-hd">Analyzing your bill…</div>
+            <div class="analysis-sub-txt">Usually under 5 seconds</div>
+            <div class="a-step" id="as1"><div class="a-ic spin">⏳</div><div class="a-txt">Reading bill — <b>identifying CPT codes</b></div></div>
+            <div class="a-step" id="as2"><div class="a-ic spin">⏳</div><div class="a-txt">Comparing against <b>Aetna Bronze HSA plan</b></div></div>
+            <div class="a-step" id="as3"><div class="a-ic spin">⏳</div><div class="a-txt">Checking <b>No Surprises Act</b> compliance</div></div>
+            <div class="a-step" id="as4"><div class="a-ic spin">⏳</div><div class="a-txt">Calculating <b>recoverable amount</b></div></div>
+          </div>
+          <div class="results-wrap" id="resultsWrap">
+            <div class="results-hd">
+              <h4>3 issues found</h4>
+              <div class="recover-tag">$4,740 recoverable</div>
+            </div>
+            <div class="finding" id="f1">
+              <div class="f-dot f-dot-red"></div>
+              <div class="f-body">
+                <div class="f-name">Unbundling violation</div>
+                <div class="f-desc">CPT 99285 + 99291 billed together — prohibited under CMS NCCI Policy §B.1.2. Code 99291 must be removed.</div>
+              </div>
+              <div class="f-amt"><div class="big">$1,840</div><div class="sm">est. recovery</div></div>
+            </div>
+            <div class="finding" id="f2">
+              <div class="f-dot f-dot-amber"></div>
+              <div class="f-body">
+                <div class="f-name">No Surprises Act violation</div>
+                <div class="f-desc">Dr. Patel (radiologist) was out-of-network with no prior notice. Federal law caps liability at in-network rates.</div>
+              </div>
+              <div class="f-amt"><div class="big">$2,100</div><div class="sm">est. recovery</div></div>
+            </div>
+            <div class="finding" id="f3">
+              <div class="f-dot f-dot-amber"></div>
+              <div class="f-body">
+                <div class="f-name">Deductible miscalculation</div>
+                <div class="f-desc">Plan deductible: $4,000. Applied: $4,800. The $800 gap includes ineligible charges.</div>
+              </div>
+              <div class="f-amt"><div class="big">$800</div><div class="sm">est. recovery</div></div>
+            </div>
+            <button class="btn-dispute" id="btnDispute" onclick="wTab(1)">Start dispute — zero risk →</button>
+            <div class="dispute-note" id="disputeNote">25% only if we win · Nothing if we don't</div>
+          </div>
+        </div>
+
+        <!-- SCREEN 1: TIMELINE -->
+        <div class="win-screen" id="ws1">
+          <div class="tl-area">
+            <div class="case-hd">
+              <div class="case-ref">Case #A-1847 · Aetna Bronze HSA</div>
+              <div class="case-nm">St. Vincent — Appendectomy</div>
+              <div class="case-pills">
+                <div class="cpill">Opened <b>Oct 28</b></div>
+                <div class="cpill">Disputes <b>3 issues</b></div>
+                <div class="cpill">Target <b>$4,740</b></div>
+              </div>
+              <div class="live-badge"><div class="blink"></div>Agent monitoring · next check in 18 hours</div>
+            </div>
+            <div class="tl">
+              <div class="tl-item">
+                <div class="tl-dot td-done">✓</div>
+                <div class="tl-d">Day 1 · Oct 28</div>
+                <div class="tl-t">Appeal letter sent to Aetna</div>
+                <div class="tl-desc-txt">Cited NCCI §B.1.2, No Surprises Act §2799A-1, and plan page 74. Delivery confirmed 9:14 AM.</div>
+              </div>
+              <div class="tl-item">
+                <div class="tl-dot td-done">✓</div>
+                <div class="tl-d">Day 7 · Nov 4</div>
+                <div class="tl-t">Follow-up sent — no response</div>
+                <div class="tl-desc-txt">Automated escalation citing 30-day statutory window. CC'd AZ Dept. of Insurance.</div>
+              </div>
+              <div class="tl-item">
+                <div class="tl-dot td-done">✓</div>
+                <div class="tl-d">Day 14 · Nov 11</div>
+                <div class="tl-t">Certified mail confirmed</div>
+                <div class="tl-desc-txt">USPS #9400111899228029124. Delivered Nov 12, 11:32 AM.</div>
+              </div>
+              <div class="tl-item tl-now">
+                <div class="tl-dot td-now"></div>
+                <div class="tl-d">Day 21 · Nov 18</div>
+                <div class="tl-t">Awaiting response</div>
+                <div class="tl-desc-txt">9 days remaining under ACA §1557. Agent polling every 48 hours.</div>
+              </div>
+              <div class="tl-item tl-later">
+                <div class="tl-dot td-later"></div>
+                <div class="tl-d">Day 30 · Nov 27</div>
+                <div class="tl-t">External review filing</div>
+                <div class="tl-desc-txt">If unresolved — MAXIMUS Federal Services IRO. 70% win rate.</div>
+              </div>
+            </div>
+            <div class="letter-snip">
+              <div class="letter-ey">Appeal letter · sent Oct 28</div>
+              <div class="letter-txt">
 RE: Appeal of Claim #AZ-2025-09847-A<br>
 Patient: Sarah M. · DOB: [redacted]<br>
 Date of Service: October 14, 2025<br><br>
 Dear Aetna Appeals Department,<br><br>
-This letter constitutes a formal appeal of the above-referenced claim on behalf of the patient. We dispute the following line items:<br><br>
+This letter constitutes a formal appeal on behalf of the patient.<br><br>
 <em>1. CPT 99285 + 99291 — Unbundling violation</em><br>
-Per CMS National Correct Coding Initiative (NCCI) Policy §B.1.2, CPT codes 99285 and 99291 may not be billed together in the same service encounter. We request immediate removal of 99291 and reprocessing of the claim.<br><br>
+Per CMS NCCI Policy §B.1.2, these codes cannot be billed together in the same encounter. We request immediate removal of 99291 and claim reprocessing.<br><br>
 <em>2. Out-of-network radiologist — No Surprises Act §2799A-1</em><br>
-The patient received radiology services from Dr. R. Patel, who is out-of-network under Aetna Bronze HSA. No prior written notice was provided, as required under 42 CFR §149.420...
+Dr. R. Patel was out-of-network with no prior written notice, per 42 CFR §149.420...
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- SCREEN 2: WIN -->
+        <div class="win-screen" id="ws2">
+          <div class="win-area">
+            <div class="win-banner">
+              <span class="win-em">🎉</span>
+              <div class="win-ref-lbl">Case #A-1847 · Resolved Nov 22, 2025</div>
+              <div class="win-hl">Aetna accepted the appeal</div>
+              <div class="win-rows">
+                <div class="win-row rec"><span class="l">Amount recovered</span><span class="v">$3,940</span></div>
+                <div class="win-row fee"><span class="l">LifeDesk fee (25%)</span><span class="v">−$985</span></div>
+                <div class="win-row net"><span class="l">Your net savings</span><span class="v">$2,955</span></div>
+              </div>
+              <div class="win-note-txt">Aetna will reprocess the claim and credit your account within 5–7 business days.</div>
+            </div>
+            <button class="share-action" onclick="copyShare()"><span>📣</span> Share: "I got $2,955 back from Aetna"</button>
+            <div class="upgrade-mini">
+              <div class="up-ey">Never miss a dispute again</div>
+              <div class="up-t">LifeDesk Pro — $79/month</div>
+              <div class="up-d">We monitor every new bill automatically. Members save $1,200–3,000/year on average.</div>
+              <div class="up-perks">
+                <div class="up-perk">Proactive monitoring of all new bills</div>
+                <div class="up-perk">Unlimited disputes included</div>
+                <div class="up-perk">Priority 24-hour response</div>
+              </div>
+              <button class="btn-upgrade" onclick="alert('Coming soon — join the waitlist!')">Start Pro plan →</button>
+              <div class="up-price">$79/month · cancel anytime · first month free</div>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /window -->
+    </div><!-- /demo-wrap -->
+  </div>
+</section>
+
+<!-- ═══ PROOF ═══ -->
+<section class="proof">
+  <div class="section-inner">
+    <div class="eyebrow">Case results</div>
+    <h2 class="section-h">Real wins.<br>Real savings.</h2>
+    <div class="proof-grid">
+      <div class="proof-card">
+        <div class="proof-amount">$4,740</div>
+        <div class="proof-insurer">Aetna Bronze HSA — Cleveland, OH</div>
+        <div class="proof-quote">"I had no idea I could even dispute this. They found three separate errors and handled everything. Never had to call Aetna once."</div>
+        <div class="proof-meta">Sarah M. · Appendectomy · 22 days to resolution</div>
+      </div>
+      <div class="proof-card">
+        <div class="proof-amount">$8,200</div>
+        <div class="proof-insurer">UnitedHealth PPO — Austin, TX</div>
+        <div class="proof-quote">"Out-of-network surgeon I never chose. LifeDesk cited the No Surprises Act and had it sorted in two weeks. Incredible."</div>
+        <div class="proof-meta">Marcus T. · Hip replacement · 18 days to resolution</div>
+      </div>
+      <div class="proof-card">
+        <div class="proof-amount">$2,100</div>
+        <div class="proof-insurer">BCBS PPO — Nashville, TN</div>
+        <div class="proof-quote">"Deductible was applied wrong. I'd given up arguing with them. LifeDesk sent one letter and they fixed it immediately."</div>
+        <div class="proof-meta">Priya K. · ER visit · 11 days to resolution</div>
+      </div>
     </div>
   </div>
+</section>
 
-</div>
-
-<!-- ═══ SCREEN 3: WIN ═══ -->
-<div class="screen wrap" id="screen-2">
-
-  <div class="win-card">
-    <span class="win-icon">🎉</span>
-    <div class="win-ref">Case #A-1847 · Resolved Nov 22, 2025</div>
-    <div class="win-headline">Aetna accepted the appeal</div>
-    <div class="win-breakdown">
-      <div class="win-row recovered">
-        <span class="lbl">Amount recovered</span>
-        <span class="val">$3,940</span>
+<!-- ═══ PRICING ═══ -->
+<section>
+  <div class="section-inner" style="text-align:center;">
+    <div class="eyebrow">Pricing</div>
+    <h2 class="section-h">Simple. You win, we earn.</h2>
+    <p class="section-p" style="margin:0 auto 0;">No upfront fees. No subscriptions required to start. We're only incentivized to win your case.</p>
+    <div class="pricing-grid">
+      <div class="price-card">
+        <div class="price-plan">Pay on win</div>
+        <div class="price-amt">25% <span>of recovery</span></div>
+        <div class="price-sub">You only pay when we win. If we find nothing or lose, you owe us zero.</div>
+        <ul class="price-list">
+          <li>Full bill analysis included</li>
+          <li>Appeal letter drafted and sent</li>
+          <li>30-day monitoring and follow-up</li>
+          <li>External review filing if needed</li>
+        </ul>
+        <button class="btn-plan" onclick="document.getElementById('demo').scrollIntoView({behavior:'smooth'})">Start with my bill →</button>
       </div>
-      <div class="win-row fee">
-        <span class="lbl">LifeDesk fee (25%)</span>
-        <span class="val">−$985</span>
-      </div>
-      <div class="win-row net">
-        <span class="lbl">Your net savings</span>
-        <span class="val">$2,955</span>
+      <div class="price-card featured">
+        <div class="featured-tag">Most value</div>
+        <div class="price-plan">LifeDesk Pro</div>
+        <div class="price-amt">$79 <span>/month</span></div>
+        <div class="price-sub">Proactive monitoring on every new bill. Most members recover far more than the subscription cost.</div>
+        <ul class="price-list">
+          <li>Everything in Pay on win</li>
+          <li>Unlimited disputes per month</li>
+          <li>Auto-monitoring of all new bills</li>
+          <li>24-hour priority response</li>
+          <li>Annual insurance plan review</li>
+        </ul>
+        <button class="btn-plan" onclick="alert('Waitlist opening soon — enter your email to reserve early access.')">Join waitlist →</button>
       </div>
     </div>
-    <div class="win-note">Aetna will reprocess the claim and credit your account within 5–7 business days.</div>
   </div>
+</section>
 
-  <button class="share-btn" onclick="copyShare()">
-    <span>📣</span> Share: "I got $2,955 back from my insurance"
+<!-- ═══ FINAL CTA ═══ -->
+<div class="final-cta">
+  <div class="hero-badge" style="margin-bottom:24px;"><span class="pulse"></span>Free analysis · No risk</div>
+  <h2>Your bill might be wrong.<br><em class="hi">Find out in 60 seconds.</em></h2>
+  <p>Over 54% of medical bills contain errors. Most people never find out because disputing feels impossible. That's what we fix.</p>
+  <button class="cta-primary" onclick="document.getElementById('demo').scrollIntoView({behavior:'smooth'})">
+    Analyze my bill free →
   </button>
-
-  <div class="pro-card">
-    <div class="pro-eyebrow">Never miss a dispute again</div>
-    <div class="pro-title">LifeDesk Pro — $79/month</div>
-    <div class="pro-desc">We watch every new bill automatically. Most members save $1,200–3,000/year — well beyond the subscription.</div>
-    <div class="perks">
-      <div class="perk">Proactive monitoring of all new bills</div>
-      <div class="perk">Unlimited disputes included</div>
-      <div class="perk">Priority response (24h vs 72h)</div>
-      <div class="perk">Annual insurance plan review</div>
-    </div>
-    <button class="pro-btn" onclick="alert('Coming soon — join the waitlist!')">Start Pro plan →</button>
-    <div class="pro-price">$79/month · cancel anytime · first month free</div>
-  </div>
-
-  <div class="another-card">
-    <p>Have another bill? Upload it and we'll check it free.<br>
-    <span style="color:var(--faint)">No charge unless we win.</span></p>
-    <button class="ghost-btn" onclick="switchTab(0)">Upload another bill</button>
-  </div>
-
 </div>
+
+<!-- ═══ FOOTER ═══ -->
+<footer>
+  <div class="footer-inner">
+    <a class="logo" href="#"><div class="logo-sq">L</div>LifeDesk</a>
+    <div class="footer-links">
+      <a href="#">Privacy</a>
+      <a href="#">Terms</a>
+      <a href="#">Contact</a>
+    </div>
+    <div class="footer-copy">LifeDesk is not a law firm and does not provide legal advice.</div>
+  </div>
+</footer>
 
 <script>
-  function switchTab(idx) {
-    document.querySelectorAll('.tab').forEach((t,i) => t.classList.toggle('active', i===idx));
-    document.querySelectorAll('.screen').forEach((s,i) => s.classList.toggle('active', i===idx));
-    window.scrollTo({top:0, behavior:'smooth'});
+  function wTab(i) {
+    document.querySelectorAll('.win-tab').forEach((t,j) => t.classList.toggle('active', i===j));
+    document.querySelectorAll('.win-screen').forEach((s,j) => s.classList.toggle('active', i===j));
   }
 
-  let started = false;
-  function startAnalysis() {
-    if (started) return;
-    started = true;
-    const uz = document.getElementById('uploadZone');
-    uz.style.opacity = '0.4';
-    uz.style.pointerEvents = 'none';
-    const box = document.getElementById('analysisBox');
-    box.classList.add('visible');
-    const steps = ['step1','step2','step3','step4'];
-    [300, 950, 1600, 2300].forEach((d, i) => {
+  let demoStarted = false;
+  function startDemo() {
+    if (demoStarted) return;
+    demoStarted = true;
+    const dz = document.getElementById('dropZone');
+    dz.style.opacity = '0.35';
+    dz.style.pointerEvents = 'none';
+    const aw = document.getElementById('analysisWrap');
+    aw.classList.add('show');
+    const steps = ['as1','as2','as3','as4'];
+    [350, 1000, 1700, 2450].forEach((d, i) => {
       setTimeout(() => {
         const el = document.getElementById(steps[i]);
         el.classList.add('done');
-        const ic = el.querySelector('.step-ic');
-        ic.classList.remove('loading');
-        ic.classList.add('ok');
-        ic.textContent = '✓';
+        const ic = el.querySelector('.a-ic');
+        ic.classList.remove('spin'); ic.classList.add('ok'); ic.textContent = '✓';
       }, d);
     });
     setTimeout(() => {
-      box.style.opacity = '0.45';
-      document.getElementById('resultsBox').classList.add('visible');
-      ['finding1','finding2','finding3'].forEach((id, i) => {
-        setTimeout(() => document.getElementById(id).classList.add('visible'), i * 180);
+      aw.style.opacity = '0.4';
+      document.getElementById('resultsWrap').classList.add('show');
+      ['f1','f2','f3'].forEach((id, i) => {
+        setTimeout(() => document.getElementById(id).classList.add('show'), i * 180);
       });
       setTimeout(() => {
-        document.getElementById('disputeCta').classList.add('visible');
-        document.getElementById('ctaNote').classList.add('visible');
-      }, 750);
-    }, 3100);
+        document.getElementById('btnDispute').classList.add('show');
+        document.getElementById('disputeNote').classList.add('show');
+      }, 700);
+    }, 3200);
   }
 
   function copyShare() {
-    const t = "I just got $2,955 back from my insurance company in 3 weeks using LifeDesk. They fought the medical bill automatically — I didn't do anything 🤯";
-    if (navigator.clipboard) { navigator.clipboard.writeText(t); alert('Copied! Paste it anywhere.'); }
-    else alert(t);
+    const t = "Just got $2,955 back from Aetna using LifeDesk. They found 3 billing errors and handled the whole appeal automatically. Took 22 days 🤯 lifedesk.ai";
+    navigator.clipboard ? navigator.clipboard.writeText(t).then(() => alert('Copied! Paste anywhere.')) : alert(t);
   }
 
-  document.getElementById('uploadZone').addEventListener('dragover', e => { e.preventDefault(); e.currentTarget.classList.add('drag'); });
-  document.getElementById('uploadZone').addEventListener('dragleave', e => e.currentTarget.classList.remove('drag'));
-  document.getElementById('uploadZone').addEventListener('drop', e => { e.preventDefault(); e.currentTarget.classList.remove('drag'); startAnalysis(); });
+  // Drag events
+  const dz = document.getElementById('dropZone');
+  dz.addEventListener('dragover', e => { e.preventDefault(); dz.classList.add('dragging'); });
+  dz.addEventListener('dragleave', () => dz.classList.remove('dragging'));
+  dz.addEventListener('drop', e => { e.preventDefault(); dz.classList.remove('dragging'); startDemo(); });
 </script>
 </body>
 </html>
