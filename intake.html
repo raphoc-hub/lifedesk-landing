@@ -7,7 +7,7 @@
   <meta name="description" content="Submit your medical bill for a free analysis. LifeDesk reviews your case within 24 hours and only charges 25% of what we recover." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after {
       box-sizing: border-box;
@@ -16,28 +16,51 @@
     }
 
     :root {
-      --bg:           #ffffff;
-      --bg-soft:      #f8fafb;
-      --bg-green:     #f0fdf4;
-      --surface:      #ffffff;
-      --card:         #ffffff;
-      --border:       rgba(0,0,0,0.08);
-      --border2:      rgba(0,0,0,0.14);
-      --green:        #16a34a;
-      --green-2:      #15803d;
-      --green-light:  #dcfce7;
-      --green-dim:    rgba(22,163,74,0.08);
+      /* Dark sections */
+      --forest:      #052e16;
+      --forest-2:    #0a3d1f;
+      --forest-3:    #0f4a26;
+
+      /* Light sections */
+      --cream:       #f9faf8;
+      --white:       #ffffff;
+
+      /* Action green */
+      --green:       #16a34a;
+      --green-2:     #15803d;
+      --green-bright:#22c55e;
+      --green-light: #dcfce7;
+      --green-dim:   rgba(22,163,74,0.1);
       --green-border: rgba(22,163,74,0.2);
-      --rose:         #ef4444;
-      --rose-dim:     rgba(239,68,68,0.08);
-      --text:         #111827;
-      --sub:          #374151;
-      --muted:        #6b7280;
-      --faint:        #9ca3af;
+
+      /* Text on DARK backgrounds */
+      --text-dark:   #f0fdf4;
+      --muted-dark:  rgba(240,253,244,0.65);
+
+      /* Text on LIGHT backgrounds */
+      --text:        #111827;
+      --sub:         #374151;
+      --muted:       #6b7280;
+      --faint:       #9ca3af;
+      --border:      rgba(0,0,0,0.09);
+      --border2:     rgba(0,0,0,0.15);
+
+      /* Semantic */
+      --rose:        #ef4444;
+      --rose-dim:    rgba(239,68,68,0.1);
+      --amber:       #f59e0b;
+
       --radius:       12px;
       --radius-lg:    16px;
       --shadow:       0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.04);
       --shadow-md:    0 4px 6px rgba(0,0,0,0.07), 0 2px 4px rgba(0,0,0,0.05);
+
+      /* Legacy compat */
+      --bg:           #f9faf8;
+      --bg-soft:      #f9faf8;
+      --bg-green:     #f0fdf4;
+      --surface:      #ffffff;
+      --card:         #ffffff;
     }
 
     html {
@@ -48,7 +71,7 @@
     }
 
     body {
-      background-color: var(--bg);
+      background-color: var(--cream);
       color: var(--text);
       font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
       line-height: 1.6;
@@ -60,11 +83,10 @@
 
     /* ── NAV ── */
     nav {
-      background: rgba(255,255,255,0.95);
+      background: rgba(255,255,255,0.97);
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
-      border-bottom: 1px solid var(--border);
-      box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+      box-shadow: 0 1px 0 rgba(0,0,0,0.08), 0 2px 12px rgba(0,0,0,0.04);
       position: sticky;
       top: 0;
       z-index: 100;
@@ -88,25 +110,18 @@
     }
 
     .logo-mark {
-      width: 32px;
-      height: 32px;
-      background: var(--green);
-      border-radius: 7px;
+      color: var(--forest);
+      flex-shrink: 0;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-weight: 800;
-      font-size: 16px;
-      color: #ffffff;
-      letter-spacing: -0.5px;
-      flex-shrink: 0;
     }
 
     .logo-word {
       font-weight: 700;
       font-size: 16px;
       color: var(--text);
-      letter-spacing: -0.3px;
+      letter-spacing: -0.5px;
     }
 
     .nav-back {
@@ -135,35 +150,16 @@
 
     /* ── HERO HEADER ── */
     .page-hero {
-      background: linear-gradient(180deg, rgba(22,163,74,0.03) 0%, rgba(255,255,255,0) 100%);
+      background:
+        radial-gradient(ellipse 120% 80% at 60% 100%, rgba(22,163,74,0.15) 0%, transparent 60%),
+        radial-gradient(ellipse 80% 60% at 30% 0%, rgba(255,255,255,0.04) 0%, transparent 50%),
+        radial-gradient(circle, rgba(255,255,255,0.03) 1px, transparent 1px),
+        linear-gradient(160deg, #052e16 0%, #0a3d1f 50%, #073a1a 100%);
+      background-size: 100%, 100%, 22px 22px, 100%;
       padding: 72px 24px 56px;
       text-align: center;
       position: relative;
       overflow: hidden;
-    }
-
-    /* Dot grid */
-    .page-hero::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background-image: radial-gradient(circle, rgba(0,0,0,0.06) 1px, transparent 1px);
-      background-size: 24px 24px;
-      pointer-events: none;
-      opacity: 0.5;
-    }
-
-    /* Green radial glow */
-    .page-hero::after {
-      content: '';
-      position: absolute;
-      top: -80px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 600px;
-      height: 400px;
-      background: radial-gradient(ellipse at center, rgba(22,163,74,0.07) 0%, transparent 70%);
-      pointer-events: none;
     }
 
     .hero-inner {
@@ -179,12 +175,12 @@
       align-items: center;
       gap: 8px;
       padding: 6px 14px;
-      background: var(--green-light);
-      border: 1px solid var(--green-border);
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.2);
       border-radius: 100px;
       font-size: 13px;
       font-weight: 600;
-      color: var(--green-2);
+      color: var(--text-dark);
       margin-bottom: 28px;
     }
 
@@ -192,7 +188,7 @@
       width: 7px;
       height: 7px;
       border-radius: 50%;
-      background: var(--green);
+      background: var(--green-bright);
       flex-shrink: 0;
       animation: pulse 2s ease-in-out infinite;
     }
@@ -207,29 +203,27 @@
       margin-bottom: 20px;
     }
 
-    .h1-serif {
+    .h1-pre {
       display: block;
-      font-family: 'Instrument Serif', Georgia, serif;
-      font-style: italic;
-      font-size: clamp(2rem, 5vw, 2.75rem);
-      font-weight: 400;
-      color: var(--sub);
-      margin-bottom: 2px;
+      font-weight: 300;
+      font-size: clamp(16px, 2vw, 20px);
+      color: rgba(240,253,244,0.55);
+      letter-spacing: 0.02em;
+      margin-bottom: 6px;
     }
 
-    .h1-bold {
+    .h1-main {
       display: block;
-      font-family: 'Inter', sans-serif;
-      font-size: clamp(2.25rem, 6vw, 3.25rem);
       font-weight: 800;
-      color: var(--text);
-      letter-spacing: -2px;
-      line-height: 1.05;
+      font-size: clamp(36px, 6vw, 58px);
+      letter-spacing: -2.5px;
+      line-height: 1.0;
+      color: #f0fdf4;
     }
 
     .subtext {
       font-size: 1rem;
-      color: var(--muted);
+      color: var(--muted-dark);
       line-height: 1.7;
       max-width: 520px;
       margin: 0 auto;
@@ -248,7 +242,7 @@
 
     /* ── WHAT YOU'LL NEED CARD ── */
     .need-card {
-      background: var(--card);
+      background: var(--white);
       border: 1px solid var(--border);
       border-left: 3px solid var(--green);
       border-radius: var(--radius);
@@ -308,7 +302,7 @@
     }
 
     .checklist li.required-item .label {
-      color: var(--green-2);
+      color: var(--forest);
     }
 
     .checklist li .desc {
@@ -344,7 +338,7 @@
 
     /* ── FORM CARD ── */
     .form-card {
-      background: var(--card);
+      background: var(--white);
       border: 1px solid var(--border);
       border-radius: var(--radius-lg);
       padding: 32px;
@@ -372,7 +366,7 @@
       font-weight: 700;
       letter-spacing: 0.1em;
       text-transform: uppercase;
-      color: var(--green);
+      color: var(--forest);
       margin-bottom: 2px;
       margin-top: 6px;
     }
@@ -381,7 +375,7 @@
       content: '';
       flex: 1;
       height: 1px;
-      background: var(--green-border);
+      background: rgba(5,46,22,0.12);
     }
 
     .field-row {
@@ -420,7 +414,7 @@
     .field input,
     .field select,
     .field textarea {
-      background: var(--bg);
+      background: var(--cream);
       border: 1px solid var(--border2);
       border-radius: 8px;
       color: var(--text);
@@ -468,6 +462,7 @@
       background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%236b7280' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
       background-repeat: no-repeat;
       background-position: right 14px center;
+      background-color: var(--cream);
       padding-right: 36px;
       cursor: pointer;
     }
@@ -504,7 +499,7 @@
 
     /* ── DROPZONES ── */
     .dropzone {
-      background: var(--card);
+      background: var(--white);
       border: 1.5px dashed var(--border2);
       border-radius: 14px;
       padding: 22px 20px;
@@ -541,7 +536,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      background: var(--bg-soft);
+      background: var(--cream);
       border: 1px solid var(--border);
       border-radius: 10px;
       color: var(--muted);
@@ -579,7 +574,7 @@
     .dz-badge.required {
       background: var(--green-light);
       border: 1px solid var(--green-border);
-      color: var(--green-2);
+      color: var(--forest);
     }
 
     .dz-badge.optional {
@@ -604,7 +599,7 @@
       background: var(--green-light);
       border-radius: 8px;
       flex-shrink: 0;
-      color: var(--green);
+      color: var(--forest);
     }
 
     .dz-file-icon svg {
@@ -613,7 +608,7 @@
     }
 
     .dz-file-info { flex: 1; min-width: 0; }
-    .dz-file-name { font-size: 13px; font-weight: 600; color: var(--green-2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .dz-file-name { font-size: 13px; font-weight: 600; color: var(--forest); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .dz-file-size { font-size: 11px; color: var(--muted); margin-top: 2px; }
 
     .dz-remove {
@@ -637,7 +632,7 @@
 
     /* ── HOW IT WORKS ── */
     .how-it-works-wrap {
-      background: var(--bg-soft);
+      background: var(--cream);
       border: 1px solid var(--border);
       border-radius: var(--radius);
       padding: 20px;
@@ -677,7 +672,7 @@
       justify-content: center;
       width: 24px;
       height: 24px;
-      background: var(--green);
+      background: var(--forest);
       color: #fff;
       border-radius: 50%;
       font-size: 11px;
@@ -708,7 +703,7 @@
 
     .submit-btn {
       width: 100%;
-      background: linear-gradient(135deg, var(--green) 0%, var(--green-2) 100%);
+      background: var(--forest);
       color: #ffffff;
       font-family: 'Inter', sans-serif;
       font-size: 1rem;
@@ -717,17 +712,17 @@
       border-radius: 10px;
       padding: 16px 24px;
       cursor: pointer;
-      transition: box-shadow 0.2s, transform 0.15s, opacity 0.15s;
+      transition: box-shadow 0.2s, transform 0.15s, opacity 0.15s, background 0.2s;
       letter-spacing: -0.01em;
       display: flex;
       align-items: center;
       justify-content: center;
       gap: 8px;
-      box-shadow: 0 4px 14px rgba(22,163,74,0.3);
     }
 
     .submit-btn:hover:not(:disabled) {
-      box-shadow: 0 6px 20px rgba(22,163,74,0.4);
+      background: var(--forest-2);
+      box-shadow: 0 6px 20px rgba(5,46,22,0.35);
       transform: translateY(-1px);
     }
 
@@ -784,8 +779,7 @@
       width: 80px;
       height: 80px;
       border-radius: 50%;
-      background: var(--green-light);
-      border: 2px solid var(--green-border);
+      background: var(--forest);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -795,7 +789,7 @@
     .success-check svg {
       width: 36px;
       height: 36px;
-      color: var(--green);
+      color: #22c55e;
     }
 
     .success-title {
@@ -822,7 +816,7 @@
 
     /* $1 Deposit Card */
     .deposit-card {
-      background: var(--card);
+      background: var(--white);
       border: 1px solid var(--border);
       border-left: 3px solid var(--green);
       border-radius: var(--radius-lg);
@@ -838,7 +832,7 @@
       font-weight: 700;
       letter-spacing: .1em;
       text-transform: uppercase;
-      color: var(--green);
+      color: var(--forest);
       margin-bottom: 8px;
     }
 
@@ -862,7 +856,7 @@
 
     .deposit-cta {
       display: block;
-      background: var(--green);
+      background: var(--forest);
       color: #ffffff;
       text-align: center;
       padding: 14px;
@@ -871,12 +865,11 @@
       font-size: 15px;
       text-decoration: none;
       transition: background 0.2s, box-shadow 0.2s, transform 0.15s;
-      box-shadow: 0 2px 8px rgba(22,163,74,0.25);
     }
 
     .deposit-cta:hover {
-      background: var(--green-2);
-      box-shadow: 0 4px 16px rgba(22,163,74,0.35);
+      background: var(--forest-2);
+      box-shadow: 0 4px 16px rgba(5,46,22,0.3);
       transform: translateY(-1px);
     }
 
@@ -919,8 +912,8 @@
 
     /* ── FOOTER ── */
     footer {
-      background: var(--bg-soft);
-      border-top: 1px solid var(--border);
+      background: #0a0a0a;
+      border-top: 1px solid rgba(0,0,0,0.2);
       padding: 36px 24px;
     }
 
@@ -940,21 +933,15 @@
       gap: 8px;
       font-weight: 700;
       font-size: 1rem;
-      color: var(--text);
+      color: #f0fdf4;
       text-decoration: none;
     }
 
     .footer-logo-mark {
-      width: 24px;
-      height: 24px;
-      background: var(--green);
-      border-radius: 5px;
+      color: #22c55e;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-weight: 800;
-      font-size: 12px;
-      color: #fff;
     }
 
     .footer-links {
@@ -966,18 +953,18 @@
 
     .footer-links a {
       font-size: 0.8125rem;
-      color: var(--muted);
+      color: rgba(255,255,255,0.4);
       text-decoration: none;
       transition: color 0.15s;
     }
 
     .footer-links a:hover {
-      color: var(--text);
+      color: rgba(255,255,255,0.7);
     }
 
     .footer-copy {
       font-size: 0.75rem;
-      color: var(--faint);
+      color: rgba(255,255,255,0.25);
       width: 100%;
     }
 
@@ -1027,7 +1014,13 @@
   <nav>
     <div class="nav-inner">
       <a href="index.html" class="logo">
-        <div class="logo-mark">L</div>
+        <div class="logo-mark">
+          <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M14 2L4 6.5V14.5C4 19.5 8.5 23.8 14 26C19.5 23.8 24 19.5 24 14.5V6.5L14 2Z" fill="currentColor"/>
+            <path d="M10 12h5M10 15h7" stroke="white" stroke-width="1.5" stroke-linecap="round" opacity="0.7"/>
+            <path d="M10 19l2.5 2.5L18 14" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
         <span class="logo-word">LifeDesk</span>
       </a>
       <a href="index.html" class="nav-back">
@@ -1047,8 +1040,8 @@
         Free analysis &middot; No upfront cost
       </div>
       <h1>
-        <span class="h1-serif">Tell us about</span>
-        <span class="h1-bold">your bill.</span>
+        <span class="h1-pre">Tell us about</span>
+        <span class="h1-main">your bill.</span>
       </h1>
       <p class="subtext">Fill this out and we'll analyze your bill within 24 hours. If we find something worth fighting, we'll handle everything — and only charge 25% of what we recover.</p>
     </div>
@@ -1393,7 +1386,13 @@
   <footer>
     <div class="footer-inner">
       <a href="index.html" class="footer-logo">
-        <div class="footer-logo-mark">L</div>
+        <div class="footer-logo-mark">
+          <svg width="22" height="22" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M14 2L4 6.5V14.5C4 19.5 8.5 23.8 14 26C19.5 23.8 24 19.5 24 14.5V6.5L14 2Z" fill="currentColor"/>
+            <path d="M10 12h5M10 15h7" stroke="white" stroke-width="1.5" stroke-linecap="round" opacity="0.7"/>
+            <path d="M10 19l2.5 2.5L18 14" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
         LifeDesk
       </a>
       <div class="footer-links">
@@ -1458,12 +1457,11 @@
         dz.classList.remove('drag-over');
         const dt = e.dataTransfer;
         if (dt.files.length) {
-          // Assign dropped files to the hidden input via DataTransfer
           try {
             const newDT = new DataTransfer();
             Array.from(dt.files).forEach(f => newDT.items.add(f));
             input.files = newDT.files;
-          } catch(err) { /* fallback: open picker */ input.click(); return; }
+          } catch(err) { input.click(); return; }
           showFile(input.files);
         }
       });
@@ -1491,12 +1489,10 @@
     const emailInput = document.getElementById('email');
     const replytoHidden = document.getElementById('replyto-hidden');
 
-    // Keep hidden _replyto in sync with email field
     emailInput.addEventListener('input', () => {
       replytoHidden.value = emailInput.value;
     });
 
-    // Required fields config
     const requiredFields = [
       { id: 'name',           fieldId: 'field-name',        msg: 'Please enter your name.' },
       { id: 'email',          fieldId: 'field-email',       msg: 'Please enter a valid email address.', type: 'email' },
@@ -1540,7 +1536,6 @@
       return valid;
     }
 
-    // Clear error on input
     requiredFields.forEach(f => {
       const el = document.getElementById(f.id);
       const fieldWrapper = document.getElementById(f.fieldId);
@@ -1569,7 +1564,6 @@
     }
 
     function showSuccess() {
-      // Fire auto-reply email
       const customerName = document.getElementById('name').value.trim() || 'there';
       const customerEmail = document.getElementById('email').value.trim();
       if (customerEmail) sendAutoReply(customerName, customerEmail);
@@ -1588,13 +1582,10 @@
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
 
-      // Sync replyto
       replytoHidden.value = emailInput.value;
 
-      // Validate
       const valid = validateForm();
       if (!valid) {
-        // Scroll to first error
         const firstError = form.querySelector('.has-error');
         if (firstError) {
           firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
