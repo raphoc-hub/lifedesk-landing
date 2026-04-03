@@ -782,7 +782,7 @@
       </div>
 
       <!-- FORM -->
-      <form id="case-form" method="POST" action="https://formspree.io/f/xwvwrqry" novalidate>
+      <form id="case-form" method="POST" action="https://formspree.io/f/xwvwrqry" enctype="multipart/form-data" novalidate>
         <!-- Hidden Formspree fields -->
         <input type="hidden" name="_subject" value="New LifeDesk case submission" />
         <input type="hidden" name="_replyto" id="replyto-hidden" value="" />
@@ -872,6 +872,37 @@
           </select>
           <span class="field-error-msg">Please select a dispute status.</span>
         </div>
+
+        <!-- Document Upload -->
+        <div class="form-section-label" style="margin-top:32px;">Upload your documents <span style="color:var(--muted);font-weight:400;text-transform:none;letter-spacing:0;font-size:12px;">— optional but speeds things up</span></div>
+
+        <div class="upload-card" style="background:var(--card);border:1.5px dashed var(--border2);border-radius:14px;padding:20px 20px 16px;margin-bottom:8px;">
+          <div class="field" style="margin-bottom:14px;">
+            <label for="bill-file" style="display:flex;align-items:center;gap:8px;">
+              <span style="background:var(--amber-dim);border:1px solid var(--amber-border);border-radius:6px;padding:2px 8px;font-size:10px;font-weight:700;color:var(--amber);text-transform:uppercase;letter-spacing:.06em;">Required</span>
+              Itemized bill with CPT codes
+            </label>
+            <input type="file" id="bill-file" name="itemized_bill" accept=".pdf,.jpg,.jpeg,.png,.heic" style="width:100%;background:var(--surface);border:1px solid var(--border2);border-radius:8px;padding:10px 12px;color:var(--text);font-family:'Inter',sans-serif;font-size:13px;cursor:pointer;" />
+            <span style="font-size:11px;color:var(--muted);margin-top:4px;display:block;">PDF, photo, or scan. Not the summary — the detailed line-item bill.</span>
+          </div>
+          <div class="field" style="margin-bottom:14px;">
+            <label for="eob-file" style="display:flex;align-items:center;gap:8px;">
+              <span style="background:var(--amber-dim);border:1px solid var(--amber-border);border-radius:6px;padding:2px 8px;font-size:10px;font-weight:700;color:var(--amber);text-transform:uppercase;letter-spacing:.06em;">Required</span>
+              Explanation of Benefits (EOB)
+            </label>
+            <input type="file" id="eob-file" name="eob" accept=".pdf,.jpg,.jpeg,.png,.heic" style="width:100%;background:var(--surface);border:1px solid var(--border2);border-radius:8px;padding:10px 12px;color:var(--text);font-family:'Inter',sans-serif;font-size:13px;cursor:pointer;" />
+            <span style="font-size:11px;color:var(--muted);margin-top:4px;display:block;">From your insurer — shows what they paid vs. what you owe.</span>
+          </div>
+          <div class="field" style="margin-bottom:4px;">
+            <label for="card-file" style="display:flex;align-items:center;gap:8px;">
+              <span style="background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:2px 8px;font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;">Optional</span>
+              Insurance card + plan document
+            </label>
+            <input type="file" id="card-file" name="insurance_docs" accept=".pdf,.jpg,.jpeg,.png,.heic" multiple style="width:100%;background:var(--surface);border:1px solid var(--border2);border-radius:8px;padding:10px 12px;color:var(--text);font-family:'Inter',sans-serif;font-size:13px;cursor:pointer;" />
+            <span style="font-size:11px;color:var(--muted);margin-top:4px;display:block;">Card front/back, or your plan document PDF. Speeds up the analysis.</span>
+          </div>
+        </div>
+        <p style="font-size:12px;color:var(--muted);margin-bottom:28px;">Don't have these yet? Submit anyway — we'll tell you exactly how to get them.</p>
 
         <!-- How it works -->
         <div class="how-it-works">
