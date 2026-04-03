@@ -45,12 +45,34 @@
   /* ── UTILITIES ── */
   .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
   .eyebrow {
-    font-size: 12px;
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 11px;
     font-weight: 600;
-    letter-spacing: 0.1em;
+    letter-spacing: 0.12em;
     text-transform: uppercase;
     color: var(--amber);
     margin-bottom: 16px;
+  }
+  .eyebrow::before, .eyebrow::after {
+    content: '';
+    display: block;
+    width: 20px;
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--amber));
+    opacity: 0.6;
+  }
+  .eyebrow::after {
+    background: linear-gradient(to left, transparent, var(--amber));
+  }
+
+  /* ── HERO GRADIENT TEXT ── */
+  .hero-gradient-text {
+    background: linear-gradient(135deg, #f59e0b 0%, #fbbf24 50%, #f97316 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
   }
   .section-label {
     display: inline-flex;
@@ -177,6 +199,10 @@
     text-align: center;
     position: relative;
     overflow: hidden;
+    background-image:
+      radial-gradient(ellipse 80% 50% at 50% 0%, rgba(245,158,11,0.06) 0%, transparent 70%),
+      radial-gradient(circle, rgba(255,255,255,0.03) 1px, transparent 1px);
+    background-size: 100% 100%, 28px 28px;
   }
 
   .hero::before {
@@ -187,7 +213,7 @@
     transform: translateX(-50%);
     width: 600px;
     height: 600px;
-    background: radial-gradient(ellipse at center, rgba(245,158,11,0.08) 0%, transparent 70%);
+    background: radial-gradient(ellipse at center, rgba(245,158,11,0.05) 0%, transparent 70%);
     pointer-events: none;
   }
 
@@ -279,16 +305,17 @@
     font-weight: 700;
     font-family: 'Inter', sans-serif;
     cursor: pointer;
-    transition: box-shadow 0.25s, transform 0.2s, background 0.2s;
+    transition: all 0.2s ease;
     text-decoration: none;
     display: inline-flex;
     align-items: center;
     gap: 6px;
     letter-spacing: -0.2px;
+    box-shadow: 0 0 0 0 rgba(245,158,11,0);
   }
 
   .btn-amber-lg:hover {
-    box-shadow: 0 0 40px var(--amber-glow), 0 8px 32px rgba(245,158,11,0.25);
+    box-shadow: 0 4px 20px rgba(245,158,11,0.4), 0 0 40px rgba(245,158,11,0.15);
     transform: translateY(-2px);
     background: #fbbf24;
   }
@@ -331,9 +358,9 @@
 
   .stat-divider {
     width: 1px;
-    height: 48px;
-    background: var(--border);
-    margin: 0 auto;
+    background: linear-gradient(to bottom, transparent, rgba(245,158,11,0.3), transparent);
+    align-self: stretch;
+    margin: 20px 0;
   }
 
   .stat-number {
@@ -1171,23 +1198,29 @@
   .proof-card {
     background: var(--card);
     border: 1px solid var(--border);
+    border-top: 1px solid rgba(16,185,129,0.3);
     border-radius: var(--radius-lg);
     padding: 28px 24px;
     transition: border-color 0.2s, transform 0.2s;
+    box-shadow: 0 -4px 20px rgba(16,185,129,0.04) inset;
   }
 
   .proof-card:hover {
     border-color: rgba(16,185,129,0.2);
+    border-top-color: rgba(16,185,129,0.5);
     transform: translateY(-3px);
   }
 
   .proof-amount {
     font-size: 38px;
     font-weight: 800;
-    color: var(--emerald);
     letter-spacing: -2px;
     margin-bottom: 4px;
     line-height: 1;
+    background: linear-gradient(135deg, #10b981 0%, #34d399 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
   }
 
   .proof-insurer {
@@ -1504,7 +1537,7 @@
     </div>
     <h1>
       <span class="h1-serif">Your insurance</span>
-      <span class="h1-bold">owes you money.</span>
+      <span class="h1-bold"><span class="hero-gradient-text">owes you money.</span></span>
       <span class="h1-light">We're going to get it back.</span>
     </h1>
     <p class="hero-sub">
